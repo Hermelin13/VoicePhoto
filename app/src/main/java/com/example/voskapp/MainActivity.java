@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import org.vosk.LibVosk;
 import org.vosk.LogLevel;
@@ -29,8 +28,7 @@ public class MainActivity extends Activity implements RecognitionListener {
     static private final int STATE_START = 0;
     static private final int STATE_READY = 1;
     static private final int STATE_DONE = 2;
-    static private final int STATE_FILE = 3;
-    static private final int STATE_MIC = 4;
+    static private final int STATE_MIC = 3;
 
     /* Used to handle permission request */
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
@@ -50,7 +48,6 @@ public class MainActivity extends Activity implements RecognitionListener {
         setUiState(STATE_START);
 
         findViewById(R.id.recognize_mic).setOnClickListener(view -> recognizeMicrophone());
-        ((ToggleButton) findViewById(R.id.pause)).setOnCheckedChangeListener((view, isChecked) -> pause(isChecked));
 
         LibVosk.setLogLevel(LogLevel.INFO);
 
@@ -71,7 +68,6 @@ public class MainActivity extends Activity implements RecognitionListener {
                 },
                 (exception) -> setErrorState("Failed to unpack the model" + exception.getMessage()));
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -104,6 +100,11 @@ public class MainActivity extends Activity implements RecognitionListener {
     }
 
     @Override
+    public void onPartialResult(String hypothesis) {
+
+    }
+
+    @Override
     public void onResult(String hypothesis) {
         resultView.append(hypothesis + "\n");
     }
@@ -115,11 +116,6 @@ public class MainActivity extends Activity implements RecognitionListener {
         if (speechStreamService != null) {
             speechStreamService = null;
         }
-    }
-
-    @Override
-    public void onPartialResult(String hypothesis) {
-        resultView.append(hypothesis + "\n");
     }
 
     @Override
@@ -138,25 +134,20 @@ public class MainActivity extends Activity implements RecognitionListener {
                 resultView.setText(R.string.preparing);
                 resultView.setMovementMethod(new ScrollingMovementMethod());
                 findViewById(R.id.recognize_mic).setEnabled(false);
-                findViewById(R.id.pause).setEnabled((false));
                 break;
             case STATE_READY:
                 resultView.setText(R.string.ready);
                 ((Button) findViewById(R.id.recognize_mic)).setText(R.string.recognize_microphone);
                 findViewById(R.id.recognize_mic).setEnabled(true);
-                findViewById(R.id.pause).setEnabled((false));
                 break;
             case STATE_DONE:
                 ((Button) findViewById(R.id.recognize_mic)).setText(R.string.recognize_microphone);
                 findViewById(R.id.recognize_mic).setEnabled(true);
-                findViewById(R.id.pause).setEnabled((false));
-                ((ToggleButton) findViewById(R.id.pause)).setChecked(false);
                 break;
             case STATE_MIC:
                 ((Button) findViewById(R.id.recognize_mic)).setText(R.string.stop_microphone);
                 resultView.setText(getString(R.string.say_something));
                 findViewById(R.id.recognize_mic).setEnabled(true);
-                findViewById(R.id.pause).setEnabled((true));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + state);

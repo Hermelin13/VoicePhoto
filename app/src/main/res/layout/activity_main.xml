@@ -6,21 +6,6 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-    <ToggleButton
-        android:id="@+id/pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/recognize_mic"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:textOff="@string/pause"
-        android:textOn="@string/continueRecognition"
-        android:textSize="18sp"
-        android:background="@drawable/round_button"
-        android:textColor="#FFFFFF"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp" />
-
     <Button
         android:id="@+id/recognize_mic"
         android:layout_width="wrap_content"
@@ -38,7 +23,7 @@
         android:id="@+id/result_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pause"
+        android:layout_below="@+id/recognize_mic"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:text=""
