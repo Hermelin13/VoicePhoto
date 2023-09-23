@@ -19,22 +19,22 @@ import org.vosk.android.SpeechStreamService;
 import org.vosk.android.StorageService;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import android.os.Bundle;
 
 public class MainActivity extends Activity implements RecognitionListener {
 
     static private final int STATE_START = 0;
     static private final int STATE_READY = 1;
     static private final int STATE_DONE = 2;
+    static private final int STATE_FILE = 3;
     static private final int STATE_MIC = 4;
 
+    /* Used to handle permission request */
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
+
     private Model model;
     private SpeechService speechService;
     private SpeechStreamService speechStreamService;
@@ -45,9 +45,16 @@ public class MainActivity extends Activity implements RecognitionListener {
         super.onCreate(state);
         setContentView(R.layout.activity_main);
 
-        // Initialize UI elements
+        // Setup layout
         resultView = findViewById(R.id.result_text);
-        // Set up permissions for audio recording
+        setUiState(STATE_START);
+
+        findViewById(R.id.recognize_mic).setOnClickListener(view -> recognizeMicrophone());
+        ((ToggleButton) findViewById(R.id.pause)).setOnCheckedChangeListener((view, isChecked) -> pause(isChecked));
+
+        LibVosk.setLogLevel(LogLevel.INFO);
+
+        // Check if user has given permission to record audio, init the model after permission is granted
         int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
@@ -65,12 +72,16 @@ public class MainActivity extends Activity implements RecognitionListener {
                 (exception) -> setErrorState("Failed to unpack the model" + exception.getMessage()));
     }
 
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == PERMISSIONS_REQUEST_RECORD_AUDIO) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Recognizer initialization is a time-consuming and it involves IO,
+                // so we execute it in async task
                 initModel();
             } else {
                 finish();
@@ -107,13 +118,18 @@ public class MainActivity extends Activity implements RecognitionListener {
     }
 
     @Override
-    public void onTimeout() {
-        setUiState(STATE_DONE);
+    public void onPartialResult(String hypothesis) {
+        resultView.append(hypothesis + "\n");
     }
 
     @Override
     public void onError(Exception e) {
         setErrorState(e.getMessage());
+    }
+
+    @Override
+    public void onTimeout() {
+        setUiState(STATE_DONE);
     }
 
     private void setUiState(int state) {
