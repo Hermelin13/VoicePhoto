@@ -38,10 +38,15 @@ public class MainActivity extends Activity implements RecognitionListener {
     private SpeechStreamService speechStreamService;
     private TextView resultView;
 
+    private Calculator calculator;
+
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_main);
+
+        // Initialize the Calculator
+        calculator = new Calculator();
 
         // Setup layout
         resultView = findViewById(R.id.result_text);
@@ -57,7 +62,19 @@ public class MainActivity extends Activity implements RecognitionListener {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
         } else {
             initModel();
+            findViewById(R.id.calculate).setOnClickListener(view -> startContinuousCalculations());
+            findViewById(R.id.stop_calculate).setOnClickListener(view -> stopContinuousCalculations());
         }
+    }
+
+    private void startContinuousCalculations() {
+        runOnUiThread(() -> resultView.append("Calculation Started.\n"));
+        calculator.startContinuousCalculations(result -> {}); // Result of calculation
+    }
+
+    private void stopContinuousCalculations() {
+        calculator.stopContinuousCalculations();
+        runOnUiThread(() -> resultView.append("Calculation Stopped.\n"));
     }
 
     private void initModel() {
@@ -177,9 +194,4 @@ public class MainActivity extends Activity implements RecognitionListener {
         }
     }
 
-    private void pause(boolean checked) {
-        if (speechService != null) {
-            speechService.setPause(checked);
-        }
-    }
 }
