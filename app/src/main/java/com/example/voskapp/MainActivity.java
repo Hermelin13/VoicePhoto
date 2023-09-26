@@ -56,25 +56,24 @@ public class MainActivity extends Activity implements RecognitionListener {
 
         LibVosk.setLogLevel(LogLevel.INFO);
 
-        // Check if user has given permission to record audio, init the model after permission is granted
-        int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO);
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
-        } else {
-            initModel();
-            findViewById(R.id.calculate).setOnClickListener(view -> startContinuousCalculations());
-            findViewById(R.id.stop_calculate).setOnClickListener(view -> stopContinuousCalculations());
-        }
+
+        ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
+        initModel();
+        findViewById(R.id.calculate).setOnClickListener(view -> startContinuousCalculations());
+        findViewById(R.id.stop_calculate).setOnClickListener(view -> stopContinuousCalculations());
     }
 
     private void startContinuousCalculations() {
-        runOnUiThread(() -> resultView.append("Calculation Started.\n"));
-        calculator.startContinuousCalculations(result -> {}); // Result of calculation
+        resultView.append("Calculation started\n");
+        /*calculator.startContinuousCalculations(result -> {
+            runOnUiThread(() -> resultView.append("Calculation Result: " + result + "\n"));
+        });*/
     }
 
     private void stopContinuousCalculations() {
+        resultView.append("Calculation stopped\n");
         calculator.stopContinuousCalculations();
-        runOnUiThread(() -> resultView.append("Calculation Stopped.\n"));
     }
 
     private void initModel() {
