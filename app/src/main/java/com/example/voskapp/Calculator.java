@@ -23,12 +23,25 @@ public class Calculator {
     }
 
     private double performHardCalculations() {
-        // Your hard calculations go here
-        // Replace this with your actual calculation logic
-        double result = 0;
-        for (int i = 0; i < 1000000; i++) {
-            result += Math.sin(i);
+        int i = 0, r = 1;
+
+        while (r > 0) {
+            r = factorial (i);
         }
-        return result;
+        return r;
+    }
+
+    public static int factorial(int n) {
+        if (n < 0) {  return -1;  }
+        if (n == 0 || n == 1) { return 1; }
+        int r = 1;
+        try {
+            for (int i = 1; i <= n; ++i) {
+                r = Math.multiplyExact (r, i);
+            }
+        } catch (ArithmeticException ex) {
+            return -2;
+        }
+        return r;
     }
 }
