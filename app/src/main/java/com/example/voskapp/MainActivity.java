@@ -117,12 +117,34 @@ public class MainActivity extends Activity implements RecognitionListener {
 
     @Override
     public void onPartialResult(String hypothesis) {
-
+        // Check if the recognized text contains the keyword to stop recognition
+        if (hypothesis.contains("stop recognition")) {
+            // Perform the action to stop recognition or change the background color here
+            stopRecognition();
+        }
     }
 
     @Override
     public void onResult(String hypothesis) {
+        // Check if the recognized text contains the keyword to stop recognition
+        if (hypothesis.contains("stop recognition")) {
+            // Perform the action to stop recognition or change the background color here
+            stopRecognition();
+        }
+        // Handle the rest of the recognized text
         resultView.append(hypothesis + "\n");
+    }
+
+    private void stopRecognition() {
+        // Perform the action to stop recognition or change the background color here
+        // For example, you can stop recognition by calling speechService.stop() or change the background color of resultView.
+        // Make sure to update the UI on the main thread if needed.
+        runOnUiThread(() -> {
+            // Update UI or stop recognition
+            speechService.stop(); // This stops the recognition
+            // You can also change the background color like this:
+            //resultView.setBackgroundColor(getResources().getColor(R.color.newBackgroundColor));
+        });
     }
 
     @Override
