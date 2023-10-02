@@ -119,6 +119,7 @@ public class MainActivity extends Activity implements RecognitionListener {
     public void onPartialResult(String hypothesis) {
         // Check if the recognized text contains the keyword to stop recognition
         if (hypothesis.contains("stop recognition")) {
+            resultView.append("Keyword recognized partial.\n");
             // Perform the action to stop recognition or change the background color here
             stopRecognition();
         }
@@ -129,10 +130,9 @@ public class MainActivity extends Activity implements RecognitionListener {
         // Check if the recognized text contains the keyword to stop recognition
         if (hypothesis.contains("stop recognition")) {
             // Perform the action to stop recognition or change the background color here
+
             stopRecognition();
         }
-        // Handle the rest of the recognized text
-        resultView.append(hypothesis + "\n");
     }
 
     private void stopRecognition() {
@@ -149,7 +149,6 @@ public class MainActivity extends Activity implements RecognitionListener {
 
     @Override
     public void onFinalResult(String hypothesis) {
-        resultView.append(hypothesis + "\n");
         setUiState(STATE_DONE);
         if (speechStreamService != null) {
             speechStreamService = null;
