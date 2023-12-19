@@ -1,5 +1,7 @@
 package com.example.voskapp;
 
+import static android.widget.Toast.makeText;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
@@ -7,6 +9,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.vosk.LibVosk;
 import org.vosk.LogLevel;
@@ -38,15 +41,10 @@ public class MainActivity extends Activity implements RecognitionListener {
     private SpeechStreamService speechStreamService;
     private TextView resultView;
 
-    private Calculator calculator;
-
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_main);
-
-        // Initialize the Calculator
-        calculator = new Calculator();
 
         // Setup layout
         resultView = findViewById(R.id.result_text);
@@ -60,20 +58,6 @@ public class MainActivity extends Activity implements RecognitionListener {
         ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
         initModel();
-        findViewById(R.id.calculate).setOnClickListener(view -> startContinuousCalculations());
-        findViewById(R.id.stop_calculate).setOnClickListener(view -> stopContinuousCalculations());
-    }
-
-    private void startContinuousCalculations() {
-        resultView.append("Calculation started\n");
-        /*calculator.startContinuousCalculations(result -> {
-            runOnUiThread(() -> resultView.append("Calculation Result: " + result + "\n"));
-        });*/
-    }
-
-    private void stopContinuousCalculations() {
-        resultView.append("Calculation stopped\n");
-        calculator.stopContinuousCalculations();
     }
 
     private void initModel() {
@@ -119,8 +103,7 @@ public class MainActivity extends Activity implements RecognitionListener {
     public void onPartialResult(String hypothesis) {
         // Check if the recognized text contains the keyword to stop recognition
         if (hypothesis.contains("stop recognition")) {
-            resultView.append("Keyword recognized partial.\n");
-            // Perform the action to stop recognition or change the background color here
+            makeText(getApplicationContext(), "Keyword Spotted: recognition", Toast.LENGTH_SHORT).show();
             stopRecognition();
         }
     }
@@ -129,8 +112,7 @@ public class MainActivity extends Activity implements RecognitionListener {
     public void onResult(String hypothesis) {
         // Check if the recognized text contains the keyword to stop recognition
         if (hypothesis.contains("stop recognition")) {
-            // Perform the action to stop recognition or change the background color here
-
+            makeText(getApplicationContext(), "Keyword Spotted: recognition", Toast.LENGTH_SHORT).show();
             stopRecognition();
         }
     }
