@@ -17,13 +17,15 @@
         android:maxSdkVersion="32" />
 
     <application
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:theme="@style/Theme.VoskApp"
         android:roundIcon="@mipmap/ic_launcher_round"
-        tools:targetApi="34">
+        tools:targetApi="34"
+        android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true">
         <activity
             android:name=".MainActivity"
             android:exported="true">

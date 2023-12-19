@@ -56,6 +56,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 public class MainActivity extends AppCompatActivity implements RecognitionListener {
 
+    private static final String KEYVIDEO = "recording";
+    private static final String KEYPHOTO = "photograph";
     Recording recording = null;
     VideoCapture<Recorder> videoCapture = null;
     ImageButton capture, toggleFlash, flipCamera, question;
@@ -157,31 +159,35 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     @Override
     public void onPartialResult(String hypothesis) {
-        // Check if the recognized text contains the keyword to stop recognition
-        if (hypothesis.contains("stop recognition")) {
-            makeText(getApplicationContext(), "Keyword Spotted: recognition", Toast.LENGTH_SHORT).show();
-            //stopRecognition();
+        /*if (hypothesis.contains(KEYVIDEO)) {
+            stopRecognition();
+            makeText(getApplicationContext(), "Keyword Spotted: " + KEYVIDEO, Toast.LENGTH_SHORT).show();
+            captureVideo().thenRun(() -> speechService.reset());
         }
+        else if (hypothesis.contains(KEYPHOTO)) {
+            stopRecognition();
+            makeText(getApplicationContext(), "Keyword Spotted: " + KEYPHOTO, Toast.LENGTH_SHORT).show();
+            takePicture().thenRun(() -> speechService.reset());
+        }*/
     }
 
     @Override
     public void onResult(String hypothesis) {
-        // Check if the recognized text contains the keyword to stop recognition
-        if (hypothesis.contains("stop recognition")) {
-            makeText(getApplicationContext(), "Keyword Spotted: recognition", Toast.LENGTH_SHORT).show();
-            //stopRecognition();
+        if (hypothesis.contains(KEYVIDEO)) {
+            stopRecognition();
+            makeText(getApplicationContext(), "Keyword Spotted: " + KEYVIDEO, Toast.LENGTH_SHORT).show();
+            captureVideo().thenRun(() -> speechService.setPause(false));
+        }
+        else if (hypothesis.contains(KEYPHOTO)) {
+            stopRecognition();
+            makeText(getApplicationContext(), "Keyword Spotted: " + KEYPHOTO, Toast.LENGTH_SHORT).show();
+            takePicture().thenRun(() -> speechService.setPause(false));
         }
     }
 
     private void stopRecognition() {
-        // Perform the action to stop recognition or change the background color here
-        // For example, you can stop recognition by calling speechService.stop() or change the background color of resultView.
-        // Make sure to update the UI on the main thread if needed.
         runOnUiThread(() -> {
-            // Update UI or stop recognition
-            speechService.stop(); // This stops the recognition
-            // You can also change the background color like this:
-            //resultView.setBackgroundColor(getResources().getColor(R.color.newBackgroundColor));
+            speechService.setPause(true);
         });
     }
 
@@ -332,14 +338,13 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
 
                 runOnUiThread(() -> Toast.makeText(MainActivity.this, "Image saved at: " + file.getPath(), Toast.LENGTH_SHORT).show());
-                startCamera(cameraFacing);
+
                 future.complete(null);
             }
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
                 runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to save: " + exception.getMessage(), Toast.LENGTH_SHORT).show());
-                startCamera(cameraFacing);
                 future.completeExceptionally(exception);
             }
         });
