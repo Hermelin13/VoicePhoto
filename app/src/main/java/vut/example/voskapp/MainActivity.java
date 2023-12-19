@@ -186,9 +186,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     }
 
     private void stopRecognition() {
-        runOnUiThread(() -> {
-            speechService.setPause(true);
-        });
+        runOnUiThread(() -> speechService.setPause(true));
     }
 
     @Override
