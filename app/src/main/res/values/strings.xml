@@ -1,13 +1,3 @@
 <resources>
-    <string name="app_name">Voice Demo</string>
-    <string name="recognize_microphone">Start</string>
-    <string name="stop_microphone">Stop</string>
-    <string name="start_calculate">Calculate</string>
-    <string name="stop_calculate">Stop Calc</string>
-
-    <string name="preparing">Preparing the recognizer\n</string>
-    <string name="ready">Ready\n</string>
-    <string name="failed">Failed to init recognizer %s\n</string>
-    <string name="starting">Starting\n</string>
-    <string name="say_something">Say something\n</string>
+    <string name="app_name">VoicePhoto</string>
 </resources>
