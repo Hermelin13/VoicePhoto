@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.example.voskapp"
+    namespace "vut.example.voskapp"
     compileSdk 34
     defaultConfig {
-        applicationId "com.example.voskapp"
+        applicationId "vut.example.voskapp"
         minSdkVersion 24
         targetSdkVersion 34
         versionCode 1

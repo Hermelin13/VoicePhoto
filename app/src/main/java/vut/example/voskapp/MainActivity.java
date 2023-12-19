@@ -1,4 +1,4 @@
-package com.example.voskapp;
+package vut.example.voskapp;
 
 import static android.widget.Toast.makeText;
 
