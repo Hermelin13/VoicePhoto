@@ -159,16 +159,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     @Override
     public void onPartialResult(String hypothesis) {
-        /*if (hypothesis.contains(KEYVIDEO)) {
-            stopRecognition();
-            makeText(getApplicationContext(), "Keyword Spotted: " + KEYVIDEO, Toast.LENGTH_SHORT).show();
-            captureVideo().thenRun(() -> speechService.reset());
-        }
-        else if (hypothesis.contains(KEYPHOTO)) {
-            stopRecognition();
-            makeText(getApplicationContext(), "Keyword Spotted: " + KEYPHOTO, Toast.LENGTH_SHORT).show();
-            takePicture().thenRun(() -> speechService.reset());
-        }*/
     }
 
     @Override
