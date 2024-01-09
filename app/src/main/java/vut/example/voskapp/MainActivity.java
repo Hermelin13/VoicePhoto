@@ -26,6 +26,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -212,17 +214,16 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     }
 
     public void startCamera(int cameraFacing) {
-        int aspectRatio = aspectRatio(previewView.getWidth(), previewView.getHeight());
         ListenableFuture<ProcessCameraProvider> listenableFuture = ProcessCameraProvider.getInstance(this);
 
         listenableFuture.addListener(() -> {
             try {
                 ProcessCameraProvider cameraProvider = listenableFuture.get();
 
-                Preview preview = new Preview.Builder().setTargetAspectRatio(aspectRatio).build();
+                Preview preview = new Preview.Builder().build();
 
                 imageCapture = new ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
-                        .setTargetRotation(getWindowManager().getDefaultDisplay().getRotation()).build();
+                        .setTargetRotation((int) previewView.getRotation()).build();
 
                 Recorder recorder = new Recorder.Builder()
                         .setQualitySelector(QualitySelector.from(Quality.HIGHEST))
@@ -282,10 +283,15 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 long captureDurationMillis = 5000;
 
                 // Schedule a task to stop the recording after the specified duration
-                new Handler().postDelayed(() -> {
-                    if (recording != null) {
-                        recording.stop();
-                        recording = null;
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (recording != null) {
+                            recording.stop();
+                            recording = null;
+                            timer.cancel(); // Stop the timer after stopping the recording
+                        }
                     }
                 }, captureDurationMillis);
 
