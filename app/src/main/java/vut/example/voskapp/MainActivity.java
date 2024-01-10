@@ -7,7 +7,6 @@ import android.content.ContentValues;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageButton;
@@ -93,10 +92,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
         // Request audio permission
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
         {
-            String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO};
+            String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO};
             ActivityCompat.requestPermissions(this, permissions, PERMISSIONS_REQUEST);
         } else {
             startCamera(cameraFacing);
@@ -135,8 +133,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
         if (requestCode == PERMISSIONS_REQUEST) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                    grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED &&
-                    grantResults.length > 2 && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+                    grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 startCamera(cameraFacing);
                 initModel();
             } else {
