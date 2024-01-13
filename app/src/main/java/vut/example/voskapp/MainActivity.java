@@ -4,7 +4,11 @@ import static android.widget.Toast.makeText;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -88,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         flipCamera = findViewById(R.id.flipCamera);
         question = findViewById(R.id.question);
 
+
+
         LibVosk.setLogLevel(LogLevel.INFO);
 
         // Request audio permission
@@ -100,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             startCamera(cameraFacing);
             initModel();
         }
+        capture.setOnClickListener(view -> takePicture());
 
         flipCamera.setOnClickListener(view -> {
             if (cameraFacing == CameraSelector.LENS_FACING_BACK) {
@@ -170,7 +177,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         else if (hypothesis.contains(KEYPHOTO)) {
             stopRecognition();
             makeText(getApplicationContext(), "Keyword Spotted: " + KEYPHOTO, Toast.LENGTH_SHORT).show();
-            takePicture().thenRun(() -> speechService.setPause(false));
+
+            takePicture().thenRunAsync(() -> {
+                runOnUiThread(() -> {
+                    speechService.setPause(false);
+                });
+            });
         }
     }
 
@@ -234,14 +246,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
                 Camera camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, videoCapture, imageCapture);
 
-                capture.setOnClickListener(view -> {
-                    if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        cameraPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                    } else {
-                        captureVideo();
-                    }
-                });
-
                 toggleFlash.setOnClickListener(view -> setFlashIcon(camera));
 
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
@@ -264,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
         contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4");
-        contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/CameraX-Video");
+        contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies");
 
         MediaStoreOutputOptions options = new MediaStoreOutputOptions.Builder(getContentResolver(), MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
                 .build();
@@ -294,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
             } else if (videoRecordEvent instanceof VideoRecordEvent.Finalize) {
                 if (!((VideoRecordEvent.Finalize) videoRecordEvent).hasError()) {
-                    String msg = "Video capture succeeded: " + ((VideoRecordEvent.Finalize) videoRecordEvent).getOutputResults().getOutputUri();
+                    String msg = "Video Capture Success: " + ((VideoRecordEvent.Finalize) videoRecordEvent).getOutputResults().getOutputUri();
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 } else {
                     recording.close();
@@ -310,35 +314,58 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     public CompletableFuture<Void> takePicture() {
         CompletableFuture<Void> future = new CompletableFuture<>();
-        final File picturesDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        if (!picturesDirectory.exists()) {
-            picturesDirectory.mkdirs();
+        String nameTimeStamp = "IMG_" + System.currentTimeMillis();
+        String name = nameTimeStamp + ".jpeg";
+        ImageCapture.OutputFileOptions outputFileOptions = null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, nameTimeStamp);
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+            contentValues.put(MediaStore.MediaColumns.ORIENTATION, 90);
+
+            outputFileOptions = new ImageCapture.OutputFileOptions.Builder(
+                    this.getContentResolver(),
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    contentValues
+            ).build();
+        } else {
+            File mImageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            boolean isDirectoryCreated = mImageDir.exists() || mImageDir.mkdirs();
+
+            if (isDirectoryCreated) {
+                File file = new File(mImageDir, name);
+                outputFileOptions = new ImageCapture.OutputFileOptions.Builder(file).build();
+            }
         }
 
-        String imageFileName = "IMG_" + System.currentTimeMillis() + ".jpg";
-        final File file = new File(picturesDirectory, imageFileName);
+        imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this),
+                new ImageCapture.OnImageSavedCallback() {
+                    @Override
+                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                        Log.e("IMAGE", "Image Capture Success");
 
-        ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(file).build();
-        imageCapture.takePicture(outputFileOptions, Executors.newCachedThreadPool(), new ImageCapture.OnImageSavedCallback() {
-            @Override
-            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                // Add image to the MediaStore
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
-                contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                        // Get the saved image URI
+                        Uri savedUri = outputFileResults.getSavedUri();
+                        Log.v("IMAGE", "Saved Image Uri " + savedUri.toString());
 
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Image saved at: " + file.getPath(), Toast.LENGTH_SHORT).show());
+                        // Update the MediaStore to make the image appear in the gallery
+                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        mediaScanIntent.setData(savedUri);
+                        sendBroadcast(mediaScanIntent);
 
-                future.complete(null);
-            }
+                        Toast.makeText(getApplicationContext(), "Image Captured and Saved", Toast.LENGTH_SHORT).show();
+                        future.complete(null); // Complete the CompletableFuture
+                    }
 
-            @Override
-            public void onError(@NonNull ImageCaptureException exception) {
-                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Failed to save: " + exception.getMessage(), Toast.LENGTH_SHORT).show());
-                future.completeExceptionally(exception);
-            }
-        });
+                    @Override
+                    public void onError(@NonNull ImageCaptureException exception) {
+                        Log.e("IMAGE", "Image Capture Failed With Exception : " + exception);
+                        Toast.makeText(MainActivity.this, "Image Capture Failed", Toast.LENGTH_SHORT).show();
+                        future.completeExceptionally(exception); // Complete the CompletableFuture exceptionally on error
+                    }
+                });
+
         return future;
     }
 
@@ -354,13 +381,5 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         } else {
             runOnUiThread(() -> Toast.makeText(MainActivity.this, "Flash is not available currently", Toast.LENGTH_SHORT).show());
         }
-    }
-
-    private int aspectRatio(int width, int height) {
-        double previewRatio = (double) Math.max(width, height) / Math.min(width, height);
-        if (Math.abs(previewRatio - 4.0 / 3.0) <= Math.abs(previewRatio - 16.0 / 9.0)) {
-            return AspectRatio.RATIO_4_3;
-        }
-        return AspectRatio.RATIO_16_9;
     }
 }
