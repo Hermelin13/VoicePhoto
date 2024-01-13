@@ -12,6 +12,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 
 import org.vosk.LibVosk;
 import org.vosk.LogLevel;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private Recognizer recognizer;
     private SpeechService speechService;
     private SpeechStreamService speechStreamService;
+    private ToneGenerator toneGenerator;
 
     @Override
     public void onCreate(Bundle state) {
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         flipCamera = findViewById(R.id.flipCamera);
         question = findViewById(R.id.question);
 
-
+        toneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
         question.setOnClickListener(v -> openHelp());
         LibVosk.setLogLevel(LogLevel.INFO);
 
@@ -138,6 +141,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     public void onDestroy() {
         super.onDestroy();
 
+        if (toneGenerator != null) {
+            toneGenerator.release();
+            toneGenerator = null;
+        }
+
         if (speechService != null) {
             speechService.stop();
             speechService.shutdown();
@@ -156,11 +164,13 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     public void onResult(String hypothesis) {
         if (hypothesis.contains(KEYVIDEO)) {
             stopRecognition();
+            playBeep(ToneGenerator.TONE_PROP_BEEP);
             Log.e("RECOGNITION", "Keyword Spotted: " + KEYVIDEO);
             captureVideo().thenRun(() -> speechService.setPause(false));
         }
         else if (hypothesis.contains(KEYPHOTO)) {
             stopRecognition();
+            playBeep(ToneGenerator.TONE_PROP_BEEP);
             Log.e("RECOGNITION", "Keyword Spotted: " + KEYPHOTO);
             takePicture().thenRunAsync(() -> runOnUiThread(() -> speechService.setPause(false)));
         }
@@ -282,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
             } else if (videoRecordEvent instanceof VideoRecordEvent.Finalize) {
                 if (!((VideoRecordEvent.Finalize) videoRecordEvent).hasError()) {
+                    playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
                     String msg = "Video Captured and Saved";
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 } else {
@@ -369,6 +380,14 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             }
         } else {
             runOnUiThread(() -> Toast.makeText(MainActivity.this, "Flash is not available currently", Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    private void playBeep(int tone) {
+        if (toneGenerator != null) {
+            // Play a short beep with the specified volume
+            toneGenerator.startTone(tone, 400);
+
         }
     }
 
