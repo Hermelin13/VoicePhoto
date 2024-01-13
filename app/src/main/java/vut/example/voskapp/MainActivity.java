@@ -1,12 +1,9 @@
 package vut.example.voskapp;
 
-import static android.widget.Toast.makeText;
-
 import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,13 +30,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.AspectRatio;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
@@ -69,14 +62,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     PreviewView previewView;
     int cameraFacing = CameraSelector.LENS_FACING_BACK;
     private ImageCapture imageCapture;
-
-    private final ActivityResultLauncher<String> cameraPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
-        if (result) {
-            startCamera(cameraFacing);
-        }
-    });
     private static final int PERMISSIONS_REQUEST = 1;
-
     private Model model;
     private Recognizer recognizer;
     private SpeechService speechService;
@@ -93,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         question = findViewById(R.id.question);
 
 
-
+        question.setOnClickListener(v -> openHelp());
         LibVosk.setLogLevel(LogLevel.INFO);
 
         // Request audio permission
@@ -106,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             startCamera(cameraFacing);
             initModel();
         }
-        capture.setOnClickListener(view -> takePicture());
 
         flipCamera.setOnClickListener(view -> {
             if (cameraFacing == CameraSelector.LENS_FACING_BACK) {
@@ -171,18 +156,13 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     public void onResult(String hypothesis) {
         if (hypothesis.contains(KEYVIDEO)) {
             stopRecognition();
-            makeText(getApplicationContext(), "Keyword Spotted: " + KEYVIDEO, Toast.LENGTH_SHORT).show();
+            Log.e("RECOGNITION", "Keyword Spotted: " + KEYVIDEO);
             captureVideo().thenRun(() -> speechService.setPause(false));
         }
         else if (hypothesis.contains(KEYPHOTO)) {
             stopRecognition();
-            makeText(getApplicationContext(), "Keyword Spotted: " + KEYPHOTO, Toast.LENGTH_SHORT).show();
-
-            takePicture().thenRunAsync(() -> {
-                runOnUiThread(() -> {
-                    speechService.setPause(false);
-                });
-            });
+            Log.e("RECOGNITION", "Keyword Spotted: " + KEYPHOTO);
+            takePicture().thenRunAsync(() -> runOnUiThread(() -> speechService.setPause(false)));
         }
     }
 
@@ -207,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     }
 
     private void setErrorState(String message) {
-        makeText(getApplicationContext(), "Error: " + message, Toast.LENGTH_SHORT).show();
+        Log.e("MainActivity", "Recognizer not initialized, ERROR: " + message);
     }
 
     private void startRecognition() throws IOException {
@@ -264,18 +244,22 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             recording = null;
             return future;
         }
+
         String name = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.getDefault()).format(System.currentTimeMillis());
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
         contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4");
-        contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies");
+        contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, Environment.DIRECTORY_MOVIES); // Specify Movies directory
 
-        MediaStoreOutputOptions options = new MediaStoreOutputOptions.Builder(getContentResolver(), MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
-                .build();
+        MediaStoreOutputOptions options = new MediaStoreOutputOptions.Builder(
+                getContentResolver(),
+                MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        ).build();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             return future;
         }
+
         recording = videoCapture.getOutput().prepareRecording(MainActivity.this, options).withAudioEnabled().start(ContextCompat.getMainExecutor(MainActivity.this), videoRecordEvent -> {
             if (videoRecordEvent instanceof VideoRecordEvent.Start) {
                 capture.setEnabled(true);
@@ -298,19 +282,22 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
             } else if (videoRecordEvent instanceof VideoRecordEvent.Finalize) {
                 if (!((VideoRecordEvent.Finalize) videoRecordEvent).hasError()) {
-                    String msg = "Video Capture Success: " + ((VideoRecordEvent.Finalize) videoRecordEvent).getOutputResults().getOutputUri();
+                    String msg = "Video Captured and Saved";
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 } else {
                     recording.close();
                     recording = null;
                     String msg = "Error: " + ((VideoRecordEvent.Finalize) videoRecordEvent).getError();
-                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                    String err = "Video Capture Failed ";
+                    Toast.makeText(this, err, Toast.LENGTH_SHORT).show();
+                    Log.e("VIDEO", msg);
                 }
             }
             future.complete(null);
         });
         return future;
     }
+
 
     public CompletableFuture<Void> takePicture() {
         CompletableFuture<Void> future = new CompletableFuture<>();
@@ -339,6 +326,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             }
         }
 
+        assert outputFileOptions != null;
         imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this),
                 new ImageCapture.OnImageSavedCallback() {
                     @Override
@@ -347,7 +335,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
                         // Get the saved image URI
                         Uri savedUri = outputFileResults.getSavedUri();
-                        Log.v("IMAGE", "Saved Image Uri " + savedUri.toString());
+                        assert savedUri != null;
+                        //Log.v("IMAGE", "Saved Image Uri " + savedUri);
 
                         // Update the MediaStore to make the image appear in the gallery
                         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -381,5 +370,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         } else {
             runOnUiThread(() -> Toast.makeText(MainActivity.this, "Flash is not available currently", Toast.LENGTH_SHORT).show());
         }
+    }
+
+    public void openHelp(){
+        Intent intent = new Intent(this, HelpActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

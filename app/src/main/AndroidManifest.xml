@@ -21,6 +21,9 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true">
         <activity
+            android:name=".HelpActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
