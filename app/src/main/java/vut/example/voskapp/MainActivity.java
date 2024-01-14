@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     Recording recording = null;
     VideoCapture<Recorder> videoCapture = null;
     ImageButton capture, toggleFlash, flipCamera, question;
+    ImageView rec;
     PreviewView previewView;
     int cameraFacing = CameraSelector.LENS_FACING_BACK;
     private ImageCapture imageCapture;
@@ -78,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         toggleFlash = findViewById(R.id.toggleFlash);
         flipCamera = findViewById(R.id.flipCamera);
         question = findViewById(R.id.question);
+        rec = findViewById(R.id.record);
+        rec.setVisibility(View.INVISIBLE);
 
         toneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
         question.setOnClickListener(v -> openHelp());
@@ -269,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
         recording = videoCapture.getOutput().prepareRecording(MainActivity.this, options).withAudioEnabled().start(ContextCompat.getMainExecutor(MainActivity.this), videoRecordEvent -> {
             if (videoRecordEvent instanceof VideoRecordEvent.Start) {
+                rec.setVisibility(View.VISIBLE);
                 capture.setEnabled(true);
 
                 // Set the duration for video capture (5 seconds in this example)
@@ -291,6 +297,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 if (!((VideoRecordEvent.Finalize) videoRecordEvent).hasError()) {
                     playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
                     String msg = "Video Captured and Saved";
+                    rec.setVisibility(View.INVISIBLE);
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 } else {
                     recording.close();
@@ -303,6 +310,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             }
             future.complete(null);
         });
+
         return future;
     }
 
