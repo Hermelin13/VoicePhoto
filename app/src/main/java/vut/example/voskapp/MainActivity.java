@@ -294,10 +294,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 }, captureDurationMillis);
 
             } else if (videoRecordEvent instanceof VideoRecordEvent.Finalize) {
+                rec.setVisibility(View.INVISIBLE);
                 if (!((VideoRecordEvent.Finalize) videoRecordEvent).hasError()) {
                     playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
                     String msg = "Video Captured and Saved";
-                    rec.setVisibility(View.INVISIBLE);
+
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 } else {
                     recording.close();
