@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
         else if (hypothesis.contains(KEYPHOTO)) {
             stopRecognition();
-            playBeep(ToneGenerator.TONE_PROP_BEEP);
+            playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
             Log.e("RECOGNITION", "Keyword Spotted: " + KEYPHOTO);
             takePicture().thenRunAsync(() -> runOnUiThread(() -> speechService.setPause(false)));
         }
