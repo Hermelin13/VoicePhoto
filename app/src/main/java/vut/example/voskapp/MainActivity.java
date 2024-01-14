@@ -17,7 +17,6 @@ import android.media.ToneGenerator;
 
 import org.vosk.LibVosk;
 import org.vosk.LogLevel;
-import org.vosk.Model;
 import org.vosk.Recognizer;
 import org.vosk.android.RecognitionListener;
 import org.vosk.android.SpeechService;
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     int cameraFacing = CameraSelector.LENS_FACING_BACK;
     private ImageCapture imageCapture;
     private static final int PERMISSIONS_REQUEST = 1;
-    private Model model;
     private Recognizer recognizer;
     private SpeechService speechService;
     private SpeechStreamService speechStreamService;
@@ -109,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private void initModel() {
         StorageService.unpack(this, "model-en-us", "model",
                 (model) -> {
-                    this.model = model;
                     // Initialize recognizer and start recognizing
                     try {
                         recognizer = new Recognizer(model, 16000.0f);
