@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,25 +16,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
-
-import org.vosk.LibVosk;
-import org.vosk.LogLevel;
-import org.vosk.Recognizer;
-import org.vosk.android.RecognitionListener;
-import org.vosk.android.SpeechService;
-import org.vosk.android.SpeechStreamService;
-import org.vosk.android.StorageService;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +37,23 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.common.util.concurrent.ListenableFuture;
+
+import org.vosk.LibVosk;
+import org.vosk.LogLevel;
+import org.vosk.Recognizer;
+import org.vosk.android.RecognitionListener;
+import org.vosk.android.SpeechService;
+import org.vosk.android.SpeechStreamService;
+import org.vosk.android.StorageService;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements RecognitionListener {
 
@@ -222,9 +222,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 ProcessCameraProvider cameraProvider = listenableFuture.get();
 
                 Preview preview = new Preview.Builder().build();
+                previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
 
-                imageCapture = new ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
-                        .setTargetRotation((int) previewView.getRotation()).build();
+                imageCapture = new ImageCapture.Builder()
+                        .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+                        .setTargetRotation((int) previewView.getRotation())
+                        .build();
 
                 Recorder recorder = new Recorder.Builder()
                         .setQualitySelector(QualitySelector.from(Quality.HIGHEST))
@@ -232,15 +235,16 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 videoCapture = VideoCapture.withOutput(recorder);
 
                 CameraSelector cameraSelector = new CameraSelector.Builder()
-                        .requireLensFacing(cameraFacing).build();
+                        .requireLensFacing(cameraFacing)
+                        .build();
 
                 cameraProvider.unbindAll();
-
                 Camera camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, videoCapture, imageCapture);
 
                 toggleFlash.setOnClickListener(view -> setFlashIcon(camera));
 
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
+
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
