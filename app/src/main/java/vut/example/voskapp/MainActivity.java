@@ -57,8 +57,8 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements RecognitionListener {
 
-    private static final String KEYVIDEO = "recording";
-    private static final String KEYPHOTO = "photograph";
+    private static final String KEYVIDEO = "action";
+    private static final String KEYPHOTO = "snap";
     Recording recording = null;
     VideoCapture<Recorder> videoCapture = null;
     ImageButton capture, toggleFlash, flipCamera, question;
@@ -160,22 +160,25 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     @Override
     public void onPartialResult(String hypothesis) {
-    }
-
-    @Override
-    public void onResult(String hypothesis) {
         if (hypothesis.contains(KEYVIDEO)) {
+            speechService.reset();
             stopRecognition();
             playBeep(ToneGenerator.TONE_PROP_BEEP);
             Log.e("RECOGNITION", "Keyword Spotted: " + KEYVIDEO);
             captureVideo().thenRun(() -> speechService.setPause(false));
         }
         else if (hypothesis.contains(KEYPHOTO)) {
+            speechService.reset();
             stopRecognition();
             playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
             Log.e("RECOGNITION", "Keyword Spotted: " + KEYPHOTO);
             takePicture().thenRunAsync(() -> runOnUiThread(() -> speechService.setPause(false)));
         }
+    }
+
+    @Override
+    public void onResult(String hypothesis) {
+
     }
 
     private void stopRecognition() {
