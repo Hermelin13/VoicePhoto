@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">VoicePhoto</string>
-    <string name="keywords">Take picture by saying \"photograph\".\n\nTake video by saying \"recording\".</string>
+    <string name="photo">Take picture by saying:</string>
+    <string name="video">Take video by saying:</string>
     <string name="func">Low beep signalize recognition.\n\nHigh beep signalize end of video capture.</string>
     <string name="flash">This icon turns on/off the back flashlight.\nFront flashlight is not accessible.</string>
     <string name="camswitch">This icon switches the front and back cameras.</string>
@@ -9,4 +10,6 @@
     <string name="turn_off_on_flashlight">turn off/on flashlight</string>
     <string name="change_camera">change camera</string>
     <string name="open_help">open help</string>
+    <string name="key_video">action</string>
+    <string name="key_photo">snap</string>
 </resources>

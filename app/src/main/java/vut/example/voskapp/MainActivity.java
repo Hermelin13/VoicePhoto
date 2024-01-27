@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -57,12 +58,13 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements RecognitionListener {
 
-    private static final String KEYVIDEO = "action";
-    private static final String KEYPHOTO = "snap";
+    String KEYVIDEO;
+    String KEYPHOTO;
     Recording recording = null;
     VideoCapture<Recorder> videoCapture = null;
     ImageButton capture, toggleFlash, flipCamera, question;
     ImageView rec;
+    TextView key;
     PreviewView previewView;
     int cameraFacing = CameraSelector.LENS_FACING_BACK;
     private ImageCapture imageCapture;
@@ -83,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         question = findViewById(R.id.question);
         rec = findViewById(R.id.record);
         rec.setVisibility(View.INVISIBLE);
+
+        KEYVIDEO = getString(R.string.key_video);
+        KEYPHOTO = getString(R.string.key_photo);
 
         toneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
         question.setOnClickListener(v -> openHelp());
