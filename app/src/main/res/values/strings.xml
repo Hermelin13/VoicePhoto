@@ -2,7 +2,7 @@
     <string name="app_name">VoicePhoto</string>
     <string name="photo">Take picture by saying:</string>
     <string name="video">Take video by saying:</string>
-    <string name="func">Low beep is for 5s countdown.\n\nHigh beep signalize start/end of capturing.</string>
+    <string name="func">Low beep is for 3s countdown.\n\nHigh beep signalize start/end of capturing.</string>
     <string name="flash">This icon turns on/off the back flashlight.\nFront flashlight is not accessible.</string>
     <string name="camswitch">This icon switches the front and back cameras.</string>
     <string name="backbutton">backButton</string>

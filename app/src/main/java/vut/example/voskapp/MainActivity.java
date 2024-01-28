@@ -164,13 +164,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     @Override
     public void onPartialResult(String hypothesis) {
+        int delayInSeconds = 3;
         if (hypothesis.contains(KEYVIDEO)) {
             speechService.reset();
             stopRecognition();
             Log.e("RECOGNITION", "Keyword Spotted: " + KEYVIDEO);
             try {
-                int delayInSeconds = 5;
-
                 for (int i = 0; i < delayInSeconds; i++) {
                     playBeep(ToneGenerator.TONE_PROP_BEEP);
                     Thread.sleep(1000);
@@ -187,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
             Log.e("RECOGNITION", "Keyword Spotted: " + KEYPHOTO);
             try {
-                int delayInSeconds = 5;
                 for (int i = 0; i < delayInSeconds; i++) {
                     playBeep(ToneGenerator.TONE_PROP_BEEP);
                     Thread.sleep(1000);
@@ -197,13 +195,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
     @Override
     public void onResult(String hypothesis) {
-
     }
 
     private void stopRecognition() {
@@ -451,7 +447,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     private void playBeep(int tone) {
         if (toneGenerator != null) {
-            // Play a short beep with the specified volume
             toneGenerator.startTone(tone, 400);
         }
     }
