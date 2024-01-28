@@ -24,7 +24,6 @@ import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.Preview;
-import androidx.camera.core.TorchState;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.video.MediaStoreOutputOptions;
 import androidx.camera.video.Quality;
@@ -414,34 +413,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             }
         } else {
             runOnUiThread(() -> Toast.makeText(MainActivity.this, "Flash is not available currently", Toast.LENGTH_SHORT).show());
-        }
-    }
-
-    private void flashFlashlight() {
-        // Check if the flashlight is available and toggle its state
-        if (cameraFacing == CameraSelector.LENS_FACING_BACK) {
-            ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
-
-            cameraProviderFuture.addListener(() -> {
-                try {
-                    ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                    CameraSelector cameraSelector = new CameraSelector.Builder().requireLensFacing(cameraFacing).build();
-
-                    Camera camera = cameraProvider.bindToLifecycle(
-                            this,
-                            cameraSelector
-                    );
-
-                    if (camera.getCameraInfo().hasFlashUnit()) {
-                        boolean isFlashOn = camera.getCameraInfo().getTorchState().getValue() == TorchState.ON;
-                        camera.getCameraControl().enableTorch(!isFlashOn);
-                    } else {
-                        runOnUiThread(() -> Toast.makeText(MainActivity.this, "Flash is not available currently", Toast.LENGTH_SHORT).show());
-                    }
-                } catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }, ContextCompat.getMainExecutor(this));
         }
     }
 
