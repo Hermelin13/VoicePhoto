@@ -2,7 +2,6 @@ package vut.example.voskapp;
 
 import android.Manifest;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
@@ -16,10 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +24,7 @@ import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.Preview;
+import androidx.camera.core.TorchState;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.video.MediaStoreOutputOptions;
 import androidx.camera.video.Quality;
@@ -40,11 +37,6 @@ import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.arthenica.mobileffmpeg.Config;
-import com.arthenica.mobileffmpeg.LogCallback;
-import com.arthenica.mobileffmpeg.LogMessage;
-import com.arthenica.mobileffmpeg.Statistics;
-import com.arthenica.mobileffmpeg.StatisticsCallback;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import org.vosk.LibVosk;
@@ -58,7 +50,6 @@ import org.vosk.android.StorageService;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -73,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     VideoCapture<Recorder> videoCapture = null;
     ImageButton capture, toggleFlash, flipCamera, question;
     ImageView rec;
-    TextView key;
     PreviewView previewView;
     int cameraFacing = CameraSelector.LENS_FACING_BACK;
     private ImageCapture imageCapture;
@@ -82,23 +72,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private SpeechService speechService;
     private SpeechStreamService speechStreamService;
     private ToneGenerator toneGenerator;
-
-
-
-    private VideoView videoView;
-    private Runnable r;
-    private Uri selectedVideoUri;
-    private static final String TAG = "BHUVNESH";
-    private static final String POSITION = "position";
-    private static final String FILEPATH = "filepath";
-    private int choice = 0;
-    private int stopPosition;
-    private ScrollView mainlayout;
-    private TextView tvLeft, tvRight;
-    private String filePath;
-    private int duration;
-    private Context mContext;
-    private String[] lastReverseCommand;
 
     @Override
     public void onCreate(Bundle state) {
@@ -194,16 +167,37 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         if (hypothesis.contains(KEYVIDEO)) {
             speechService.reset();
             stopRecognition();
-            playBeep(ToneGenerator.TONE_PROP_BEEP);
             Log.e("RECOGNITION", "Keyword Spotted: " + KEYVIDEO);
-            captureVideo().thenRun(() -> speechService.setPause(false));
+            try {
+                int delayInSeconds = 5;
+
+                for (int i = 0; i < delayInSeconds; i++) {
+                    playBeep(ToneGenerator.TONE_PROP_BEEP);
+                    Thread.sleep(1000);
+                }
+                playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
+                captureVideo().thenRun(() -> speechService.setPause(false));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         else if (hypothesis.contains(KEYPHOTO)) {
             speechService.reset();
             stopRecognition();
-            playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
+
             Log.e("RECOGNITION", "Keyword Spotted: " + KEYPHOTO);
-            takePicture().thenRunAsync(() -> runOnUiThread(() -> speechService.setPause(false)));
+            try {
+                int delayInSeconds = 5;
+                for (int i = 0; i < delayInSeconds; i++) {
+                    playBeep(ToneGenerator.TONE_PROP_BEEP);
+                    Thread.sleep(1000);
+                }
+                playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
+                takePicture().thenRunAsync(() -> runOnUiThread(() -> speechService.setPause(false)));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -334,12 +328,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             } else if (videoRecordEvent instanceof VideoRecordEvent.Finalize) {
                 rec.setVisibility(View.INVISIBLE);
                 if (!((VideoRecordEvent.Finalize) videoRecordEvent).hasError()) {
-                    // Extract the video file path from the output file results
-                    VideoRecordEvent.Finalize finalizeEvent = (VideoRecordEvent.Finalize) videoRecordEvent;
-                    String capturedVideoPath = finalizeEvent.getOutputOptions().toString();
-                    // Execute slow-motion function after video capture
-                    executeSlowMotionVideoCommand(capturedVideoPath);
-
                     playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
                     String msg = "Video Captured and Saved";
 
@@ -352,15 +340,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     Toast.makeText(this, err, Toast.LENGTH_SHORT).show();
                     Log.e("VIDEO", msg);
                 }
-
-                // Complete the future
-                future.complete(null);
             }
+            future.complete(null);
         });
 
         return future;
     }
-
 
 
     public CompletableFuture<Void> takePicture() {
@@ -436,11 +421,38 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
     }
 
+    private void flashFlashlight() {
+        // Check if the flashlight is available and toggle its state
+        if (cameraFacing == CameraSelector.LENS_FACING_BACK) {
+            ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
+
+            cameraProviderFuture.addListener(() -> {
+                try {
+                    ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+                    CameraSelector cameraSelector = new CameraSelector.Builder().requireLensFacing(cameraFacing).build();
+
+                    Camera camera = cameraProvider.bindToLifecycle(
+                            this,
+                            cameraSelector
+                    );
+
+                    if (camera.getCameraInfo().hasFlashUnit()) {
+                        boolean isFlashOn = camera.getCameraInfo().getTorchState().getValue() == TorchState.ON;
+                        camera.getCameraControl().enableTorch(!isFlashOn);
+                    } else {
+                        runOnUiThread(() -> Toast.makeText(MainActivity.this, "Flash is not available currently", Toast.LENGTH_SHORT).show());
+                    }
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }, ContextCompat.getMainExecutor(this));
+        }
+    }
+
     private void playBeep(int tone) {
         if (toneGenerator != null) {
             // Play a short beep with the specified volume
             toneGenerator.startTone(tone, 400);
-
         }
     }
 
@@ -449,68 +461,4 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         startActivity(intent);
         finish();
     }
-
-    private void execFFmpegBinary(final String[] command) {
-
-        Config.enableLogCallback(new LogCallback() {
-            @Override
-            public void apply(LogMessage message) {
-                Log.e(Config.TAG, message.getText());
-            }
-        });
-        Config.enableStatisticsCallback(new StatisticsCallback() {
-            @Override
-            public void apply(Statistics newStatistics) {
-                Log.e(Config.TAG, String.format("frame: %d, time: %d", newStatistics.getVideoFrameNumber(), newStatistics.getTime()));
-                Log.d(TAG, "Started command : ffmpeg " + Arrays.toString(command));
-                Log.d(TAG, "progress : " + newStatistics.toString());
-            }
-        });
-        Log.d(TAG, "Started command : ffmpeg " + Arrays.toString(command));
-
-        long executionId = com.arthenica.mobileffmpeg.FFmpeg.executeAsync(command, (executionId1, returnCode) -> {
-            if (returnCode == Config.RETURN_CODE_SUCCESS) {
-                Log.d(TAG, "Finished command : ffmpeg " + Arrays.toString(command));
-
-
-
-
-            } else if (returnCode == Config.RETURN_CODE_CANCEL) {
-                Log.e(TAG, "Async command execution cancelled by user.");
-
-            } else {
-                Log.e(TAG, String.format("Async command execution failed with returnCode=%d.", returnCode));
-
-            }
-        });
-        Log.e(TAG, "execFFmpegMergeVideo executionId-" + executionId);
-    }
-
-    private void executeSlowMotionVideoCommand(String videoFilePath) {
-        File moviesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
-
-        if (moviesDir == null || !moviesDir.exists()) {
-            Log.e(TAG, "Movies directory not found.");
-            return;
-        }
-
-        String filePrefix = "slowmotion_video";
-        String fileExtn = ".mp4";
-
-        File dest = new File(moviesDir, filePrefix + fileExtn);
-        int fileNo = 0;
-        while (dest.exists()) {
-            fileNo++;
-            dest = new File(moviesDir, filePrefix + fileNo + fileExtn);
-        }
-
-        Log.d(TAG, "startTrim: src: " + videoFilePath);
-        Log.d(TAG, "startTrim: dest: " + dest.getAbsolutePath());
-        filePath = dest.getAbsolutePath();
-
-        String[] complexCommand = {"-y", "-i", videoFilePath, "-filter_complex", "[0:v]setpts=2.0*PTS[v];[0:a]atempo=0.5[a]", "-map", "[v]", "-map", "[a]", "-b:v", "2097k", "-r", "60", "-vcodec", "mpeg4", filePath};
-        execFFmpegBinary(complexCommand);
-    }
-
-
 }
