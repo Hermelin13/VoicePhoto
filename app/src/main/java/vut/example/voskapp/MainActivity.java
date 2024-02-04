@@ -91,15 +91,30 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         question.setOnClickListener(v -> openHelp());
         LibVosk.setLogLevel(LogLevel.INFO);
 
-        // Request audio permission
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
-        {
-            String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO};
-            ActivityCompat.requestPermissions(this, permissions, PERMISSIONS_REQUEST);
-        } else {
-            startCamera(cameraFacing);
-            initModel();
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
+            {
+                String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO};
+                ActivityCompat.requestPermissions(this, permissions, PERMISSIONS_REQUEST);
+            } else {
+                startCamera(cameraFacing);
+                initModel();
+            }
+        }
+        else {
+            // Request audio permission
+            if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
+            {
+                String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO};
+                ActivityCompat.requestPermissions(this, permissions, PERMISSIONS_REQUEST);
+            } else {
+                startCamera(cameraFacing);
+                initModel();
+            }
         }
 
         flipCamera.setOnClickListener(view -> {
@@ -132,14 +147,26 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == PERMISSIONS_REQUEST) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                    grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                startCamera(cameraFacing);
-                initModel();
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults.length > 2 && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+                    startCamera(cameraFacing);
+                    initModel();
+                } else {
+                    finish();
+                }
             } else {
-                finish();
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    startCamera(cameraFacing);
+                    initModel();
+                } else {
+                    finish();
+                }
             }
         }
+
     }
 
     @Override
