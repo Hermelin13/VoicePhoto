@@ -2,7 +2,9 @@ package vut.example.voskapp;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private SpeechService speechService;
     private SpeechStreamService speechStreamService;
     private ToneGenerator toneGenerator;
+    long captureDurationMillis;
+    int delayInSeconds;
 
     @Override
     public void onCreate(Bundle state) {
@@ -86,8 +90,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         rec = findViewById(R.id.record);
         rec.setVisibility(View.INVISIBLE);
 
-        KEYVIDEO = getString(R.string.key_video);
-        KEYPHOTO = getString(R.string.key_photo);
+        SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
+
+        KEYPHOTO = ShPr.getString("kPhoto", "snap");
+        KEYVIDEO = ShPr.getString("kVideo", "action");
+        captureDurationMillis = Long.parseLong(ShPr.getString("length", "10")) * 1000;
+        delayInSeconds = Integer.parseInt(ShPr.getString("count", "3"));
 
         toneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
         question.setOnClickListener(v -> open("help"));
@@ -189,7 +197,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     @Override
     public void onPartialResult(String hypothesis) {
-        int delayInSeconds = 3;
         if (hypothesis.contains(KEYVIDEO)) {
             speechService.reset();
             stopRecognition();
@@ -328,9 +335,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             if (videoRecordEvent instanceof VideoRecordEvent.Start) {
                 rec.setVisibility(View.VISIBLE);
                 capture.setEnabled(true);
-
-                // Set the duration for video capture (10 seconds in this example)
-                long captureDurationMillis = 10000;
 
                 // Schedule a task to stop the recording after the specified duration
                 Timer timer = new Timer();

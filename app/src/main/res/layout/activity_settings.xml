@@ -26,7 +26,7 @@
         android:layout_below="@id/back"
         android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
-        android:text="@string/photo"
+        android:text="@string/setphoto"
         android:textColor="#fff"
         android:textSize="20sp" />
 
@@ -40,7 +40,9 @@
         android:ems="10"
         android:inputType="text"
         android:textColor="#fff"
-        android:text="@string/key_photo" />
+        android:textColorHint="#5E5E5E"
+        android:hint="@string/hintPhoto"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/changeVideo"
@@ -49,7 +51,7 @@
         android:layout_below="@id/editTextPhoto"
         android:layout_marginStart="40dp"
         android:layout_marginTop="25dp"
-        android:text="@string/video"
+        android:text="@string/setvideo"
         android:textColor="#fff"
         android:textSize="20sp" />
 
@@ -63,6 +65,84 @@
         android:ems="10"
         android:inputType="text"
         android:textColor="#fff"
-        android:text="@string/key_video" />
+        android:textColorHint="#5E5E5E"
+        android:hint="@string/hintVideo"
+        android:autofillHints=""/>
+
+    <TextView
+        android:id="@+id/changeLength"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextVideo"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/setlength"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+
+    <EditText
+        android:id="@+id/editTextLength"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/changeLength"
+        android:layout_marginStart="40dp"
+        android:textSize="20sp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textColor="#fff"
+        android:textColorHint="#5E5E5E"
+        android:hint="@string/hintLength"
+        android:autofillHints="-1"/>
+
+    <TextView
+        android:id="@+id/changeCount"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextLength"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/setcount"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+
+    <EditText
+        android:id="@+id/editTextCount"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/changeCount"
+        android:layout_marginStart="40dp"
+        android:textSize="20sp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textColor="#fff"
+        android:textColorHint="#5E5E5E"
+        android:hint="@string/hintCount"
+        android:autofillHints="-1"/>
+
+    <TextView
+        android:id="@+id/savetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextCount"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="@string/save"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+    <ImageButton
+        android:id="@+id/save"
+        android:layout_width="60sp"
+        android:layout_height="60sp"
+        android:layout_below="@id/savetext"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/round_check_circle_24"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:tint="#fff"
+        android:contentDescription="@string/confirm"/>
 
 </RelativeLayout>

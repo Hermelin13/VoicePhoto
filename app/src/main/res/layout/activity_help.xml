@@ -31,20 +31,10 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/keyp"
-        android:layout_width="300sp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/keywordsphoto"
-        android:layout_marginStart="40dp"
-        android:text="@string/key_photo"
-        android:textColor="#fff"
-        android:textSize="20sp" />
-
-    <TextView
         android:id="@+id/keywordsvideo"
         android:layout_width="300sp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/keyp"
+        android:layout_below="@id/keywordsphoto"
         android:layout_marginStart="40dp"
         android:layout_marginTop="25dp"
         android:text="@string/video"
@@ -52,12 +42,13 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/keyv"
+        android:id="@+id/lengthvideo"
         android:layout_width="300sp"
         android:layout_height="wrap_content"
         android:layout_below="@id/keywordsvideo"
         android:layout_marginStart="40dp"
-        android:text="@string/key_video"
+        android:layout_marginTop="25dp"
+        android:text="@string/length"
         android:textColor="#fff"
         android:textSize="20sp" />
 
@@ -65,7 +56,7 @@
         android:id="@+id/beep"
         android:layout_width="300sp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/keyv"
+        android:layout_below="@id/lengthvideo"
         android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
         android:text="@string/func"
