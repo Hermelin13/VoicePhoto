@@ -50,6 +50,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CompletableFuture;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     String KEYPHOTO;
     Recording recording = null;
     VideoCapture<Recorder> videoCapture = null;
-    ImageButton capture, toggleFlash, flipCamera, question;
+    ImageButton capture, toggleFlash, flipCamera, question, cogwheel;
     ImageView rec;
     PreviewView previewView;
     int cameraFacing = CameraSelector.LENS_FACING_BACK;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         toggleFlash = findViewById(R.id.toggleFlash);
         flipCamera = findViewById(R.id.flipCamera);
         question = findViewById(R.id.question);
+        cogwheel = findViewById(R.id.cogwheel);
         rec = findViewById(R.id.record);
         rec.setVisibility(View.INVISIBLE);
 
@@ -88,7 +90,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         KEYPHOTO = getString(R.string.key_photo);
 
         toneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-        question.setOnClickListener(v -> openHelp());
+        question.setOnClickListener(v -> open("help"));
+        cogwheel.setOnClickListener(v -> open("settings"));
         LibVosk.setLogLevel(LogLevel.INFO);
 
 
@@ -444,9 +447,16 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
     }
 
-    public void openHelp() {
-        Intent intent = new Intent(this, HelpActivity.class);
-        startActivity(intent);
-        finish();
+    public void open(String what) {
+        if (Objects.equals(what, "help")) {
+            Intent intent = new Intent(this, HelpActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (Objects.equals(what, "settings")){
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 }

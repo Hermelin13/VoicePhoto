@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <androidx.camera.view.PreviewView
         android:id="@+id/cameraPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
     <ImageView
         android:id="@+id/record"
@@ -68,6 +68,18 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/open_help"
         android:src="@drawable/baseline_question_mark_24"
+        app:tint="#fff" />
+
+    <ImageButton
+        android:id="@+id/cogwheel"
+        android:layout_width="60sp"
+        android:layout_height="60sp"
+        android:layout_below="@id/question"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10sp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/settings"
+        android:src="@drawable/cogwheel_settings"
         app:tint="#fff" />
 
 </RelativeLayout>

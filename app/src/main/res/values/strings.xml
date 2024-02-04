@@ -9,6 +9,7 @@
     <string name="capturing_photo">capturing photo</string>
     <string name="turn_off_on_flashlight">turn off/on flashlight</string>
     <string name="change_camera">change camera</string>
+    <string name="settings">open settings</string>
     <string name="open_help">open help</string>
     <string name="key_video">action</string>
     <string name="key_photo">snap</string>
