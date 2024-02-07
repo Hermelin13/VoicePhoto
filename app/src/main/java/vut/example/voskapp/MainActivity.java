@@ -7,17 +7,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -36,9 +31,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     String KEYVIDEO;
     String KEYPHOTO;
-    ImageButton capture, toggleFlash, flipCamera, question, cogwheel;
-    ImageView rec;
-    PreviewView previewView;
+    ImageButton question, cogwheel;
     private static final int PERMISSIONS_REQUEST = 1;
     private Recognizer recognizer;
     private SpeechService speechService;
@@ -53,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         setContentView(R.layout.activity_main);
         question = findViewById(R.id.question);
         cogwheel = findViewById(R.id.cogwheel);
-        rec = findViewById(R.id.record);
-        rec.setVisibility(View.INVISIBLE);
 
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
 

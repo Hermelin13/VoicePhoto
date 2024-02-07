@@ -15,9 +15,8 @@ import java.util.Objects;
 public class SettingsActivity extends AppCompatActivity {
 
     ImageButton back, confirm;
-    EditText keyphoto, keyvideo, setlength, setcount;
-    String photoSTR, videoSTR, lengthSTR, countSTR;
-    int length, count;
+    EditText keyphoto, keyvideo;
+    String photoSTR, videoSTR;
     SharedPreferences ShPr;
 
     @Override
@@ -36,20 +35,6 @@ public class SettingsActivity extends AppCompatActivity {
         confirm.setOnClickListener(view -> {
             photoSTR = keyphoto.getText().toString();
             videoSTR = keyvideo.getText().toString();
-            lengthSTR = setlength.getText().toString();
-            countSTR = setcount.getText().toString();
-
-            if(Objects.equals(lengthSTR, "")) {
-                length = -1;
-            }else {
-                length = Integer.parseInt(lengthSTR);
-            }
-
-            if(Objects.equals(countSTR, "")) {
-                count = -1;
-            }else {
-                count = Integer.parseInt(countSTR);
-            }
 
             SharedPreferences.Editor editor = ShPr.edit();
             if (!Objects.equals(photoSTR, "")){
@@ -57,12 +42,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
             if (!Objects.equals(videoSTR, "")){
                 editor.putString("kVideo", videoSTR);
-            }
-            if (length > 0){
-                editor.putString("length", String.valueOf(length));
-            }
-            if (count >= 0){
-                editor.putString("count", String.valueOf(count));
             }
 
             editor.apply();
