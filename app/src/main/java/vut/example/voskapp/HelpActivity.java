@@ -23,8 +23,6 @@ public class HelpActivity extends AppCompatActivity {
         back = findViewById(R.id.back);
         kphoto = findViewById(R.id.keywordsphoto);
         kvideo = findViewById(R.id.keywordsvideo);
-        length = findViewById(R.id.lengthvideo);
-        beep = findViewById(R.id.beep);
 
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
         phototext = getString(R.string.photo) + " " +ShPr.getString("kPhoto", "snap");

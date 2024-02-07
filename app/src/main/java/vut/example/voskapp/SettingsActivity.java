@@ -29,8 +29,6 @@ public class SettingsActivity extends AppCompatActivity {
         confirm = findViewById(R.id.save);
         keyphoto = findViewById(R.id.editTextPhoto);
         keyvideo = findViewById(R.id.editTextVideo);
-        setlength = findViewById(R.id.editTextLength);
-        setcount = findViewById(R.id.editTextCount);
 
         ShPr = getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
 
