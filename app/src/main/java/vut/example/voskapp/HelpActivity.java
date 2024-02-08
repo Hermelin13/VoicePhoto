@@ -27,7 +27,7 @@ public class HelpActivity extends AppCompatActivity {
         beep = findViewById(R.id.beep);
 
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
-        phototext = getString(R.string.photo) + " " +ShPr.getString("kPhoto", "snap");
+        phototext = getString(R.string.photo) + " " + ShPr.getString("kPhoto", "snap");
         videotext = getString(R.string.video) + " " + ShPr.getString("kVideo", "action");
         lengthtext = getString(R.string.length) + " " + ShPr.getString("length", "10") + " seconds";
         beeptext = getString(R.string.func) + " " + ShPr.getString("count", "3") + " seconds";

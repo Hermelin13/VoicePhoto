@@ -3,6 +3,7 @@ package vut.example.voskapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -41,37 +42,37 @@ public class SettingsActivity extends AppCompatActivity {
             lengthSTR = setlength.getText().toString();
             countSTR = setcount.getText().toString();
 
-            if(Objects.equals(lengthSTR, "")) {
+            if (Objects.equals(lengthSTR, "")) {
                 length = -1;
-            }else {
+            } else {
                 length = Integer.parseInt(lengthSTR);
             }
 
-            if(Objects.equals(countSTR, "")) {
+            if (Objects.equals(countSTR, "")) {
                 count = -1;
-            }else {
+            } else {
                 count = Integer.parseInt(countSTR);
             }
 
             SharedPreferences.Editor editor = ShPr.edit();
-            if (!Objects.equals(photoSTR, "")){
+            if (!Objects.equals(photoSTR, "")) {
                 editor.putString("kPhoto", photoSTR);
             }
-            if (!Objects.equals(videoSTR, "")){
+            if (!Objects.equals(videoSTR, "")) {
                 editor.putString("kVideo", videoSTR);
             }
-            if (length > 0){
+            if (length > 0) {
                 editor.putString("length", String.valueOf(length));
             }
-            if (count >= 0){
+            if (count >= 0) {
                 editor.putString("count", String.valueOf(count));
             }
 
             editor.apply();
+            confirm.setBackgroundColor(Color.GREEN);
             Toast.makeText(SettingsActivity.this, "Settings Saved", Toast.LENGTH_LONG).show();
         });
     }
-
 
 
     public void closeSet() {

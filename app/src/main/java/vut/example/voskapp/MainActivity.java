@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_main);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         previewView = findViewById(R.id.cameraPreview);
         capture = findViewById(R.id.capture);
         toggleFlash = findViewById(R.id.toggleFlash);
@@ -456,7 +458,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             Intent intent = new Intent(this, HelpActivity.class);
             startActivity(intent);
             finish();
-        } else if (Objects.equals(what, "settings")){
+        } else if (Objects.equals(what, "settings")) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             finish();

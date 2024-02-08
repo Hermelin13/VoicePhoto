@@ -21,44 +21,48 @@
 
     <TextView
         android:id="@+id/keywordsphoto"
-        android:layout_width="300sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/back"
         android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
         android:text="@string/photo"
         android:textColor="#fff"
         android:textSize="20sp" />
 
     <TextView
         android:id="@+id/keywordsvideo"
-        android:layout_width="300sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/keywordsphoto"
         android:layout_marginStart="40dp"
         android:layout_marginTop="25dp"
+        android:layout_marginEnd="40dp"
         android:text="@string/video"
         android:textColor="#fff"
         android:textSize="20sp" />
 
     <TextView
         android:id="@+id/lengthvideo"
-        android:layout_width="300sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/keywordsvideo"
         android:layout_marginStart="40dp"
         android:layout_marginTop="25dp"
+        android:layout_marginEnd="40dp"
         android:text="@string/length"
         android:textColor="#fff"
         android:textSize="20sp" />
 
     <TextView
         android:id="@+id/beep"
-        android:layout_width="300sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/lengthvideo"
         android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
         android:text="@string/func"
         android:textColor="#fff"
         android:textSize="20sp" />
@@ -76,11 +80,12 @@
 
     <TextView
         android:id="@+id/flash"
-        android:layout_width="300sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/beep"
         android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
         android:text="@string/flash"
         android:textColor="#fff"
         android:textSize="20sp" />
@@ -98,11 +103,35 @@
 
     <TextView
         android:id="@+id/cmsw"
-        android:layout_width="300sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/flash"
         android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:text="@string/camswitch"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/cogwheelmenu"
+        android:layout_width="20sp"
+        android:layout_height="20sp"
+        android:layout_below="@id/cmsw"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="25dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/cogwheel_settings" />
+
+    <TextView
+        android:id="@+id/settinghelp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cmsw"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
         android:text="@string/camswitch"
         android:textColor="#fff"
         android:textSize="20sp" />
