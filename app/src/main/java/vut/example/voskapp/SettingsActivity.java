@@ -36,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         ShPr = getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
 
         back.setOnClickListener(v -> closeSet());
+
         confirm.setOnClickListener(view -> {
             photoSTR = keyphoto.getText().toString();
             videoSTR = keyvideo.getText().toString();
@@ -73,7 +74,6 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(SettingsActivity.this, "Settings Saved", Toast.LENGTH_LONG).show();
         });
     }
-
 
     public void closeSet() {
         Intent intent = new Intent(this, MainActivity.class);

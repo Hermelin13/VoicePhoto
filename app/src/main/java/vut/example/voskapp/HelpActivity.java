@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ public class HelpActivity extends AppCompatActivity {
         beep = findViewById(R.id.beep);
 
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
-        phototext = getString(R.string.photo) + " " + ShPr.getString("kPhoto", "snap");
+        phototext = getString(R.string.photo) + " " + "<font color='#EE0000'>" + ShPr.getString("kPhoto", "snap") + "</font>";
         videotext = getString(R.string.video) + " " + ShPr.getString("kVideo", "action");
         lengthtext = getString(R.string.length) + " " + ShPr.getString("length", "10") + " seconds";
         beeptext = getString(R.string.func) + " " + ShPr.getString("count", "3") + " seconds";
@@ -35,7 +36,7 @@ public class HelpActivity extends AppCompatActivity {
         kphoto.setText(phototext);
         kvideo.setText(videotext);
         length.setText(lengthtext);
-        beep.setText(beeptext);
+        beep.setText(Html.fromHtml(beeptext));
 
         back.setOnClickListener(v -> closeHelp());
     }

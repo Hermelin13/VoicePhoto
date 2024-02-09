@@ -17,7 +17,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/backbutton"
         android:src="@drawable/baseline_cancel_24"
-        app:tint="#fff" />
+        app:tint="#FF4A4A" />
 
     <TextView
         android:id="@+id/changePhoto"

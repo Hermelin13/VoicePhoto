@@ -17,14 +17,14 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/backbutton"
         android:src="@drawable/baseline_cancel_24"
-        app:tint="#fff" />
+        app:tint="#FFFF4A4A" />
 
     <TextView
         android:id="@+id/keywordsphoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/back"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="40dp"
         android:text="@string/photo"
@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/keywordsphoto"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="40dp"
         android:text="@string/video"
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/keywordsvideo"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="40dp"
         android:text="@string/length"
@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/lengthvideo"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="40dp"
         android:text="@string/func"
@@ -69,12 +69,12 @@
 
     <ImageView
         android:id="@+id/flashImage"
-        android:layout_width="20sp"
-        android:layout_height="20sp"
+        android:layout_width="25sp"
+        android:layout_height="25sp"
         android:layout_below="@id/beep"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
         android:importantForAccessibility="no"
         android:src="@drawable/baseline_flash_on_24" />
 
@@ -83,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/beep"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="40dp"
         android:text="@string/flash"
@@ -92,12 +92,12 @@
 
     <ImageView
         android:id="@+id/switchImage"
-        android:layout_width="20sp"
-        android:layout_height="20sp"
+        android:layout_width="25sp"
+        android:layout_height="25sp"
         android:layout_below="@id/flash"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
         android:importantForAccessibility="no"
         android:src="@drawable/baseline_cameraswitch_24" />
 
@@ -106,7 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/flash"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="40dp"
         android:text="@string/camswitch"
@@ -115,12 +115,12 @@
 
     <ImageView
         android:id="@+id/cogwheelmenu"
-        android:layout_width="20sp"
-        android:layout_height="20sp"
+        android:layout_width="25sp"
+        android:layout_height="25sp"
         android:layout_below="@id/cmsw"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
         android:importantForAccessibility="no"
         android:src="@drawable/cogwheel_settings" />
 
@@ -129,7 +129,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/cmsw"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="40dp"
         android:text="@string/camswitch"
