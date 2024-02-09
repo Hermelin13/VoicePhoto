@@ -70,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             editor.apply();
-            confirm.setBackgroundColor(Color.GREEN);
+            confirm.setColorFilter(Color.GREEN);
             Toast.makeText(SettingsActivity.this, "Settings Saved", Toast.LENGTH_LONG).show();
         });
     }

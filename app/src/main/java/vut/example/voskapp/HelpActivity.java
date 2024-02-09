@@ -3,8 +3,11 @@ package vut.example.voskapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -14,7 +17,6 @@ public class HelpActivity extends AppCompatActivity {
 
     ImageButton back;
     TextView kphoto, kvideo, beep, length;
-    String phototext, videotext, beeptext, lengthtext;
 
     @Override
     public void onCreate(Bundle state) {
@@ -28,17 +30,24 @@ public class HelpActivity extends AppCompatActivity {
         beep = findViewById(R.id.beep);
 
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
-        phototext = getString(R.string.photo) + " " + "<font color='#EE0000'>" + ShPr.getString("kPhoto", "snap") + "</font>";
-        videotext = getString(R.string.video) + " " + ShPr.getString("kVideo", "action");
-        lengthtext = getString(R.string.length) + " " + ShPr.getString("length", "10") + " seconds";
-        beeptext = getString(R.string.func) + " " + ShPr.getString("count", "3") + " seconds";
 
-        kphoto.setText(phototext);
-        kvideo.setText(videotext);
-        length.setText(lengthtext);
-        beep.setText(Html.fromHtml(beeptext));
+        kphoto.setText(colorChange(getString(R.string.photo) + " ", ShPr.getString("kPhoto", "snap")));
+        kvideo.setText(colorChange(getString(R.string.video) + " ", ShPr.getString("kVideo", "action")));
+        length.setText(colorChange(getString(R.string.length) + " ", ShPr.getString("length", "10") + " seconds"));
+        beep.setText(colorChange(getString(R.string.func) + " ", ShPr.getString("count", "3") + " seconds"));
 
         back.setOnClickListener(v -> closeHelp());
+    }
+
+    public SpannableString colorChange (String staticText, String dynamicText) {
+        String combinedText = staticText + dynamicText;
+        SpannableString spannableString = new SpannableString(combinedText);
+
+        int startIndex = staticText.length();
+        int endIndex = startIndex + dynamicText.length();
+
+        spannableString.setSpan(new ForegroundColorSpan(Color.YELLOW), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
     }
 
     public void closeHelp() {
