@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     String KEYVIDEO;
     String KEYPHOTO;
-    ImageButton question, cogwheel;
+    ImageButton question, cogwheel, init;
     private static final int PERMISSIONS_REQUEST = 1;
     private Recognizer recognizer;
     private SpeechService speechService;
@@ -44,8 +46,10 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_main);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         question = findViewById(R.id.question);
         cogwheel = findViewById(R.id.cogwheel);
+        init = findViewById(R.id.init);
 
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
 
@@ -164,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             if (speechService == null) {
                 speechService = new SpeechService(recognizer, 16000.0f);
                 speechService.startListening(this);
+                init.setColorFilter(Color.GREEN);
             }
         } else {
             Log.e("MainActivity", "Recognizer not initialized");
