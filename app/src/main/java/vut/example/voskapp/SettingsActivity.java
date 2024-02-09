@@ -3,8 +3,8 @@ package vut.example.voskapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -15,7 +15,8 @@ import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    ImageButton back, confirm;
+    ImageButton back;
+    Button confirm;
     EditText keyphoto, keyvideo, setlength, setcount;
     String photoSTR, videoSTR, lengthSTR, countSTR;
     int length, count;
@@ -70,7 +71,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             editor.apply();
-            confirm.setColorFilter(Color.GREEN);
             Toast.makeText(SettingsActivity.this, "Settings Saved", Toast.LENGTH_LONG).show();
         });
     }
