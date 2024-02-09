@@ -3,9 +3,10 @@
     <string name="photo">Take picture by saying:</string>
     <string name="video">Take video by saying:</string>
     <string name="length">Video length:</string>
-    <string name="func">Low beep is for countdown.\nHigh beep signalize start/end of capturing.\nCountdown:</string>
+    <string name="func">Low tone signals countdown.\nHigh tone marks capture start or end.\nCountdown:</string>
     <string name="flash">This icon turns on/off the back flashlight.\nFront flashlight is not accessible.</string>
     <string name="camswitch">This icon switches the front and back cameras.</string>
+    <string name="settingsicon">This icon opens settings.</string>
 
     <string name="setphoto">Set your word for capturing photo:</string>
     <string name="setvideo">Set your word for capturing video:</string>

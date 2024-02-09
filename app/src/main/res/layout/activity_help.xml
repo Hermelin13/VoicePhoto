@@ -133,7 +133,7 @@
         android:layout_marginStart="60dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="40dp"
-        android:text="@string/camswitch"
+        android:text="@string/settingsicon"
         android:textColor="#fff"
         android:textSize="20sp" />
 </RelativeLayout>
