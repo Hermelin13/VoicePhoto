@@ -1,4 +1,4 @@
-package vut.example.voskapp;
+package vut.test.voskapp;
 
 import android.content.Context;
 import android.content.Intent;
