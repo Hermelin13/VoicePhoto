@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class HelpActivity extends AppCompatActivity {
 
     ImageButton back;
-    TextView kphoto, kvideo;
-    String phototext, videotext;
+    TextView kphoto, kvideo, timer;
+    String phototext, videotext, timertext;
 
     @Override
     public void onCreate(Bundle state) {
@@ -23,13 +23,16 @@ public class HelpActivity extends AppCompatActivity {
         back = findViewById(R.id.back);
         kphoto = findViewById(R.id.keywordsphoto);
         kvideo = findViewById(R.id.keywordsvideo);
+        timer = findViewById(R.id.timerhelp);
 
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
         phototext = getString(R.string.photo) + " " +ShPr.getString("kPhoto", "snap");
         videotext = getString(R.string.video) + " " + ShPr.getString("kVideo", "action");
+        timertext = getString(R.string.timerhelp) + " " + ShPr.getString("time", "15")  + " minutes";
 
         kphoto.setText(phototext);
         kvideo.setText(videotext);
+        timer.setText(timertext);
 
         back.setOnClickListener(v -> closeHelp());
     }

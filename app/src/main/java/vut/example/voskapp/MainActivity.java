@@ -9,9 +9,12 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,9 +34,12 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements RecognitionListener {
 
-    String KEYVIDEO;
-    String KEYPHOTO;
+    String KEYVIDEO, KEYPHOTO, timertext;
     ImageButton question, cogwheel, init;
+    TextView timer, numPHOTO, numVIDEO;
+    Button start;
+    private CountDownTimer countDownTimer;
+    private boolean isTimerRunning = false;
     private static final int PERMISSIONS_REQUEST = 1;
     private Recognizer recognizer;
     private SpeechService speechService;
@@ -41,20 +47,39 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private ToneGenerator toneGenerator;
     int counterphoto;
     int countervideo;
+    int timerMin;
 
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        timer = findViewById(R.id.clock);
+        start = findViewById(R.id.start);
+        numPHOTO = findViewById(R.id.counterpho);
+        numVIDEO = findViewById(R.id.countervid);
         question = findViewById(R.id.question);
         cogwheel = findViewById(R.id.cogwheel);
         init = findViewById(R.id.init);
+
+        start.setOnClickListener(v -> {
+            numVIDEO.setText(String.valueOf(countervideo = 0));
+            numPHOTO.setText(String.valueOf(counterphoto = 0));
+            if (isTimerRunning) {
+                isTimerRunning = false;
+                countDownTimer.cancel();
+            } else {
+                startTimer();
+            }
+        });
 
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
 
         KEYPHOTO = ShPr.getString("kPhoto", "snap");
         KEYVIDEO = ShPr.getString("kVideo", "action");
+        timerMin = Integer.parseInt(ShPr.getString("time", "15"));
+        timertext = ShPr.getString("time", "15") + ":00";
+        timer.setText(timertext);
 
         toneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
         question.setOnClickListener(v -> open("help"));
@@ -119,18 +144,22 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     @Override
     public void onPartialResult(String hypothesis) {
-        if (hypothesis.contains(KEYVIDEO)) {
-            speechService.reset();
-            stopRecognition();
-            Log.e("RECOGNITION", "Keyword Spotted: " + KEYVIDEO);
-            playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
-            counterphoto++;
-        } else if (hypothesis.contains(KEYPHOTO)) {
-            speechService.reset();
-            stopRecognition();
-            Log.e("RECOGNITION", "Keyword Spotted: " + KEYPHOTO);
-            playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
-            countervideo++;
+        if (isTimerRunning) {
+            if (hypothesis.contains(KEYVIDEO)) {
+                speechService.reset();
+                stopRecognition();
+                speechService.setPause(false);
+                Log.e("RECOGNITION", "Keyword Spotted: " + KEYVIDEO);
+                playBeep(ToneGenerator.TONE_PROP_BEEP);
+                numVIDEO.setText(String.valueOf(++countervideo));
+            } else if (hypothesis.contains(KEYPHOTO)) {
+                speechService.reset();
+                stopRecognition();
+                speechService.setPause(false);
+                Log.e("RECOGNITION", "Keyword Spotted: " + KEYPHOTO);
+                playBeep(ToneGenerator.TONE_PROP_BEEP);
+                numPHOTO.setText(String.valueOf(++counterphoto));
+            }
         }
     }
 
@@ -181,12 +210,38 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
     }
 
+    private void startTimer() {
+        countDownTimer = new CountDownTimer((long) timerMin * 60 * 1000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                updateTimerText(millisUntilFinished);
+            }
+
+            @Override
+            public void onFinish() {
+                updateTimerText(0);
+                isTimerRunning = false;
+                playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
+            }
+        };
+
+        countDownTimer.start();
+        isTimerRunning = true;
+    }
+
+    private void updateTimerText(long millisecondsUntilFinished) {
+        int seconds = (int) (millisecondsUntilFinished / 1000);
+        String timeLeftFormatted = String.format("%02d:%02d", seconds / 60, seconds % 60);
+        timer.setText(timeLeftFormatted);
+    }
+
     public void open(String what) {
         if (Objects.equals(what, "help")) {
             Intent intent = new Intent(this, HelpActivity.class);
             startActivity(intent);
             finish();
-        } else if (Objects.equals(what, "settings")){
+        } else if (Objects.equals(what, "settings")) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             finish();

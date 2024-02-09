@@ -41,4 +41,15 @@
         android:textColor="#fff"
         android:textSize="20sp" />
 
+    <TextView
+        android:id="@+id/timerhelp"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/keywordsvideo"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/timerhelp"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
 </RelativeLayout>

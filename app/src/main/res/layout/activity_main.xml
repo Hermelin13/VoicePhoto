@@ -43,4 +43,86 @@
         android:src="@drawable/round_check_circle_24"
         app:tint="#fff" />
 
+    <TextView
+        android:id="@+id/clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="20sp"
+        android:text="@string/timer"
+        android:textColor="#FFF"/>
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/clock"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:textSize="20sp"
+        android:text="@string/start_test" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/clock"
+        android:gravity="center"
+        android:layout_marginTop="30dp">
+
+        <!-- First TextView with Name -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/keyphoto"
+                android:textSize="14sp"
+                android:textColor="#FFF"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/counterpho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="@string/counter"
+                android:textColor="#FFF"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <!-- Second TextView with Name -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/keyvideo"
+                android:textSize="14sp"
+                android:textColor="#FFF"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/countervid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:text="@string/counter"
+                android:textColor="#FFF"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

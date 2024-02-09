@@ -15,8 +15,9 @@ import java.util.Objects;
 public class SettingsActivity extends AppCompatActivity {
 
     ImageButton back, confirm;
-    EditText keyphoto, keyvideo;
-    String photoSTR, videoSTR;
+    EditText keyphoto, keyvideo, timer;
+    int time;
+    String photoSTR, videoSTR, timerSTR;
     SharedPreferences ShPr;
 
     @Override
@@ -28,6 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
         confirm = findViewById(R.id.save);
         keyphoto = findViewById(R.id.editTextPhoto);
         keyvideo = findViewById(R.id.editTextVideo);
+        timer = findViewById(R.id.editTextTimer);
 
         ShPr = getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
 
@@ -35,6 +37,13 @@ public class SettingsActivity extends AppCompatActivity {
         confirm.setOnClickListener(view -> {
             photoSTR = keyphoto.getText().toString();
             videoSTR = keyvideo.getText().toString();
+            timerSTR = timer.getText().toString();
+
+            if (Objects.equals(timerSTR, "")) {
+                time = -1;
+            } else {
+                time = Integer.parseInt(timerSTR);
+            }
 
             SharedPreferences.Editor editor = ShPr.edit();
             if (!Objects.equals(photoSTR, "")){
@@ -43,13 +52,14 @@ public class SettingsActivity extends AppCompatActivity {
             if (!Objects.equals(videoSTR, "")){
                 editor.putString("kVideo", videoSTR);
             }
+            if (time > 0) {
+                editor.putString("time", String.valueOf(time));
+            }
 
             editor.apply();
             Toast.makeText(SettingsActivity.this, "Settings Saved", Toast.LENGTH_LONG).show();
         });
     }
-
-
 
     public void closeSet() {
         Intent intent = new Intent(this, MainActivity.class);

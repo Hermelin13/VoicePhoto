@@ -70,10 +70,35 @@
         android:autofillHints=""/>
 
     <TextView
+        android:id="@+id/changeTimer"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextVideo"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/setvideo"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/editTextTimer"
+        android:layout_width="300sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/changeTimer"
+        android:layout_marginStart="40dp"
+        android:textSize="20sp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textColor="#fff"
+        android:textColorHint="#5E5E5E"
+        android:hint="@string/hintTimer"
+        android:autofillHints="-1"/>
+
+    <TextView
         android:id="@+id/savetext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextVideo"
+        android:layout_below="@id/editTextTimer"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:text="@string/save"
