@@ -14,7 +14,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="10sp"
         android:layout_marginTop="20sp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginEnd="30dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/backbutton"
         android:src="@drawable/baseline_cancel_24"
@@ -24,21 +24,10 @@
         android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="23sp"
+        android:layout_alignStart="@id/changePhoto"
         android:layout_marginTop="30sp"
         android:backgroundTint="#4CAF50"
         android:text="@string/buttonsave" />
-
-    <TextView
-        android:id="@+id/savetext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="125dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/save"
-        android:textAlignment="center"
-        android:textColor="#fff"
-        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/changePhoto"
@@ -150,6 +139,18 @@
         android:minHeight="48dp"
         android:textColor="#fff"
         android:textColorHint="#5E5E5E"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/savetext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextCount"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/save"
+        android:textAlignment="center"
+        android:textColor="#fff"
         android:textSize="20sp" />
 
 </RelativeLayout>

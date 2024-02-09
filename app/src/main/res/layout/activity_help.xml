@@ -12,12 +12,13 @@
         android:layout_width="60sp"
         android:layout_height="60sp"
         android:layout_alignParentEnd="true"
+        android:layout_marginStart="10sp"
         android:layout_marginTop="20sp"
-        android:layout_marginEnd="10sp"
+        android:layout_marginEnd="30dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/backbutton"
         android:src="@drawable/baseline_cancel_24"
-        app:tint="#FFFF4A4A" />
+        app:tint="#FF4A4A" />
 
     <TextView
         android:id="@+id/keywordsphoto"
