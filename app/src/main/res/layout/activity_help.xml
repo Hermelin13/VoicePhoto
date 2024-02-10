@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/keywordsphoto"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="40dp"
         android:text="@string/video"
         android:textColor="#fff"
@@ -50,9 +50,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/keywordsvideo"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
         android:text="@string/length"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lengthvideo"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="40dp"
+        android:text="@string/countdownlength"
         android:textColor="#fff"
         android:textSize="20sp" />
 
@@ -60,9 +72,9 @@
         android:id="@+id/beep"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lengthvideo"
+        android:layout_below="@id/count"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="40dp"
         android:text="@string/func"
         android:textColor="#fff"
@@ -75,7 +87,7 @@
         android:layout_below="@id/beep"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="35dp"
         android:importantForAccessibility="no"
         android:src="@drawable/baseline_flash_on_24" />
 
@@ -85,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/beep"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
         android:text="@string/flash"
         android:textColor="#fff"
@@ -98,7 +110,7 @@
         android:layout_below="@id/flash"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:importantForAccessibility="no"
         android:src="@drawable/baseline_cameraswitch_24" />
 
@@ -108,7 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/flash"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
         android:text="@string/camswitch"
         android:textColor="#fff"
@@ -121,7 +133,7 @@
         android:layout_below="@id/cmsw"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:importantForAccessibility="no"
         android:src="@drawable/cogwheel_settings" />
 
@@ -131,7 +143,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/cmsw"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
         android:text="@string/settingsicon"
         android:textColor="#fff"

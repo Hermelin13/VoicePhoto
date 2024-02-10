@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">VoicePhoto</string>
-    <string name="photo">Take picture by saying:</string>
-    <string name="video">Take video by saying:</string>
-    <string name="length">Video length:</string>
-    <string name="func">Low tone signals countdown.\nHigh tone marks capture start or end.\nCountdown:</string>
+    <string name="photo">Take picture by saying: </string>
+    <string name="video">Take video by saying: </string>
+    <string name="length">Video length: </string>
+    <string name="func">Low tone signals countdown.\nHigh tone marks capture start or end.</string>
+    <string name="countdownlength">Countdown: </string>
     <string name="flash">This icon turns on/off the back flashlight.\nFront flashlight is not accessible.</string>
     <string name="camswitch">This icon switches the front and back cameras.</string>
     <string name="settingsicon">This icon opens settings.</string>
@@ -13,8 +14,8 @@
     <string name="setlength">Set your length for video:</string>
     <string name="setcount">Set your countdown for capture:</string>
 
-    <string name="hintPhoto">Keyword for photo</string>
-    <string name="hintVideo">Keyword for Video</string>
+    <string name="hintPhoto">English keyword</string>
+    <string name="hintVideo">English keyword</string>
     <string name="hintLength">Length in seconds</string>
     <string name="hintCount">Countdown in seconds</string>
     <string name="save">Empty fields are not saved</string>

@@ -14,20 +14,23 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="10sp"
         android:layout_marginTop="20sp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="28dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/backbutton"
         android:src="@drawable/baseline_cancel_24"
         app:tint="#FF4A4A" />
 
-    <Button
+    <ImageButton
         android:id="@+id/save"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_alignStart="@id/changePhoto"
-        android:layout_marginTop="32sp"
-        android:backgroundTint="#4CAF50"
-        android:text="@string/buttonsave" />
+        android:layout_width="60sp"
+        android:layout_height="60sp"
+        android:layout_marginStart="28sp"
+        android:layout_marginTop="20sp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/backbutton"
+        android:src="@drawable/baseline_cloud_upload_24"
+        app:tint="#4CAF50" />
+
 
     <TextView
         android:id="@+id/changePhoto"
