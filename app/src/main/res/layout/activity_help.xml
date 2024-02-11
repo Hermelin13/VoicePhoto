@@ -1,151 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
-    tools:context=".HelpActivity">
+    android:background="#000000">
 
-    <ImageButton
-        android:id="@+id/back"
-        android:layout_width="60sp"
-        android:layout_height="60sp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="10sp"
-        android:layout_marginTop="20sp"
-        android:layout_marginEnd="30dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/backbutton"
-        android:src="@drawable/baseline_cancel_24"
-        app:tint="#FF4A4A" />
-
-    <TextView
-        android:id="@+id/keywordsphoto"
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/back"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/photo"
-        android:textColor="#fff"
-        android:textSize="20sp" />
+        android:background="#000000"
+        tools:context=".HelpActivity">
 
-    <TextView
-        android:id="@+id/keywordsvideo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/keywordsphoto"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/video"
-        android:textColor="#fff"
-        android:textSize="20sp" />
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="60sp"
+            android:layout_height="60sp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="20sp"
+            android:layout_marginEnd="30dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/backbutton"
+            android:src="@drawable/baseline_cancel_24"
+            app:tint="#FF4A4A" />
 
-    <TextView
-        android:id="@+id/lengthvideo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/keywordsvideo"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/length"
-        android:textColor="#fff"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/keywordsphoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/back"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
+            android:text="@string/photo"
+            android:textColor="#fff"
+            android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/count"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lengthvideo"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/countdownlength"
-        android:textColor="#fff"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/keywordsvideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/keywordsphoto"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="40dp"
+            android:text="@string/video"
+            android:textColor="#fff"
+            android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/beep"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/count"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/func"
-        android:textColor="#fff"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/lengthvideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/keywordsvideo"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="40dp"
+            android:text="@string/length"
+            android:textColor="#fff"
+            android:textSize="20sp" />
 
-    <ImageView
-        android:id="@+id/flashImage"
-        android:layout_width="25sp"
-        android:layout_height="25sp"
-        android:layout_below="@id/beep"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="35dp"
-        android:importantForAccessibility="no"
-        android:src="@drawable/baseline_flash_on_24" />
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lengthvideo"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="40dp"
+            android:text="@string/countdownlength"
+            android:textColor="#fff"
+            android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/flash"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/beep"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/flash"
-        android:textColor="#fff"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/beep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/count"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="40dp"
+            android:text="@string/func"
+            android:textColor="#fff"
+            android:textSize="20sp" />
 
-    <ImageView
-        android:id="@+id/switchImage"
-        android:layout_width="25sp"
-        android:layout_height="25sp"
-        android:layout_below="@id/flash"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:importantForAccessibility="no"
-        android:src="@drawable/baseline_cameraswitch_24" />
+        <ImageView
+            android:id="@+id/flashImage"
+            android:layout_width="25sp"
+            android:layout_height="25sp"
+            android:layout_below="@id/beep"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="35dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/baseline_flash_on_24" />
 
-    <TextView
-        android:id="@+id/cmsw"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/flash"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/camswitch"
-        android:textColor="#fff"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/flash"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/beep"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="40dp"
+            android:text="@string/flash"
+            android:textColor="#fff"
+            android:textSize="20sp" />
 
-    <ImageView
-        android:id="@+id/cogwheelmenu"
-        android:layout_width="25sp"
-        android:layout_height="25sp"
-        android:layout_below="@id/cmsw"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:importantForAccessibility="no"
-        android:src="@drawable/cogwheel_settings" />
+        <ImageView
+            android:id="@+id/switchImage"
+            android:layout_width="25sp"
+            android:layout_height="25sp"
+            android:layout_below="@id/flash"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/baseline_cameraswitch_24" />
 
-    <TextView
-        android:id="@+id/settinghelp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cmsw"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/settingsicon"
-        android:textColor="#fff"
-        android:textSize="20sp" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/cmsw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/flash"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:text="@string/camswitch"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/cogwheelmenu"
+            android:layout_width="25sp"
+            android:layout_height="25sp"
+            android:layout_below="@id/cmsw"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/cogwheel_settings" />
+
+        <TextView
+            android:id="@+id/settinghelp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cmsw"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="60dp"
+            android:text="@string/settingsicon"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+    </RelativeLayout>
+</ScrollView>
