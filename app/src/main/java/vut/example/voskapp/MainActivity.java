@@ -437,10 +437,10 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         if (camera.getCameraInfo().hasFlashUnit()) {
             if (camera.getCameraInfo().getTorchState().getValue() == 0) {
                 camera.getCameraControl().enableTorch(true);
-                toggleFlash.setImageResource(R.drawable.baseline_flash_off_24);
+                toggleFlash.setImageResource(R.drawable.baseline_flash_on_24);
             } else {
                 camera.getCameraControl().enableTorch(false);
-                toggleFlash.setImageResource(R.drawable.baseline_flash_on_24);
+                toggleFlash.setImageResource(R.drawable.baseline_flash_off_24);
             }
         } else {
             runOnUiThread(() -> Toast.makeText(MainActivity.this, "Flash is not available currently", Toast.LENGTH_SHORT).show());

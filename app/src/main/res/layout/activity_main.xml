@@ -43,7 +43,7 @@
         android:layout_marginEnd="10sp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/turn_off_on_flashlight"
-        android:src="@drawable/baseline_flash_on_24"
+        android:src="@drawable/baseline_flash_off_24"
         app:tint="#fff" />
 
     <ImageButton
