@@ -30,7 +30,7 @@
             android:layout_marginStart="28sp"
             android:layout_marginTop="20sp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/backbutton"
+            android:contentDescription="@string/savebutton"
             android:src="@drawable/baseline_cloud_upload_24"
             app:tint="#4CAF50" />
 

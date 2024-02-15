@@ -14,18 +14,17 @@
     <string name="setlength">Set your length for video:</string>
     <string name="setcount">Set your countdown for capture:</string>
 
-    <string name="hintPhoto">English keyword</string>
-    <string name="hintVideo">English keyword</string>
+    <string name="hintPhoto">English keyword for photo capture</string>
+    <string name="hintVideo">English keyword for video capture</string>
     <string name="hintLength">Length in seconds</string>
     <string name="hintCount">Countdown in seconds</string>
     <string name="save">Empty fields are not saved</string>
 
-    <string name="backbutton">back Button</string>
-    <string name="confirm">confirm Button</string>
+    <string name="backbutton">back</string>
+    <string name="savebutton">save</string>
     <string name="capturing_photo">capturing photo</string>
     <string name="turn_off_on_flashlight">turn off/on flashlight</string>
     <string name="change_camera">change camera</string>
     <string name="settings">open settings</string>
     <string name="open_help">open help</string>
-    <string name="buttonsave">SAVE</string>
 </resources>
