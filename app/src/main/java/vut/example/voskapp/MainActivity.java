@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.net.Uri;
@@ -363,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     recording = null;
                     String msg = "Error: " + ((VideoRecordEvent.Finalize) videoRecordEvent).getError();
                     String err = "Video Capture Failed ";
-                    Toast.makeText(this, err, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, err, Toast.LENGTH_LONG).show();
                     Log.e("VIDEO", msg);
                 }
             }
@@ -372,7 +374,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
         return future;
     }
-
 
     public CompletableFuture<Void> takePicture() {
         CompletableFuture<Void> future = new CompletableFuture<>();
@@ -425,7 +426,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     @Override
                     public void onError(@NonNull ImageCaptureException exception) {
                         Log.e("IMAGE", "Image Capture Failed With Exception : " + exception);
-                        Toast.makeText(MainActivity.this, "Image Capture Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Image Capture Failed", Toast.LENGTH_LONG).show();
                         future.completeExceptionally(exception); // Complete the CompletableFuture exceptionally on error
                     }
                 });
@@ -443,7 +444,27 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 toggleFlash.setImageResource(R.drawable.baseline_flash_off_24);
             }
         } else {
-            runOnUiThread(() -> Toast.makeText(MainActivity.this, "Flash is not available currently", Toast.LENGTH_SHORT).show());
+            if(camera.getCameraInfo().getLensFacing() == CameraSelector.LENS_FACING_FRONT){
+                ColorDrawable viewColor = (ColorDrawable) previewView.getBackground();
+                int colorId = viewColor.getColor();
+                if(colorId == Color.BLACK) {
+                    toggleFlash.setImageResource(R.drawable.baseline_flash_on_24);
+                    toggleFlash.setColorFilter(Color.BLACK);
+                    flipCamera.setColorFilter(Color.BLACK);
+                    question.setColorFilter(Color.BLACK);
+                    cogwheel.setColorFilter(Color.BLACK);
+                    previewView.setBackgroundColor(Color.WHITE);
+                } else {
+                    toggleFlash.setImageResource(R.drawable.baseline_flash_off_24);
+                    toggleFlash.setColorFilter(Color.WHITE);
+                    flipCamera.setColorFilter(Color.WHITE);
+                    question.setColorFilter(Color.WHITE);
+                    cogwheel.setColorFilter(Color.WHITE);
+                    previewView.setBackgroundColor(Color.BLACK);
+                }
+            } else {
+                Toast.makeText(MainActivity.this, "Flash is not available currently", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

@@ -69,7 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             editor.apply();
-            Toast.makeText(SettingsActivity.this, "Settings Saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(SettingsActivity.this, "Settings Saved", Toast.LENGTH_SHORT).show();
         });
     }
 
