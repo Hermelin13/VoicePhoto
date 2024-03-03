@@ -132,8 +132,15 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         flipCamera.setOnClickListener(view -> {
             if (cameraFacing == CameraSelector.LENS_FACING_BACK) {
                 cameraFacing = CameraSelector.LENS_FACING_FRONT;
+                toggleFlash.setImageResource(R.drawable.baseline_flash_off_24);
             } else {
                 cameraFacing = CameraSelector.LENS_FACING_BACK;
+                toggleFlash.setImageResource(R.drawable.baseline_flash_off_24);
+                toggleFlash.setColorFilter(Color.WHITE);
+                flipCamera.setColorFilter(Color.WHITE);
+                question.setColorFilter(Color.WHITE);
+                cogwheel.setColorFilter(Color.WHITE);
+                previewView.setBackgroundColor(Color.BLACK);
             }
             startCamera(cameraFacing);
         });
