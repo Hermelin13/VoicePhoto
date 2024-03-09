@@ -58,7 +58,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements RecognitionListener {
@@ -218,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     Thread.sleep(1000);
                 }
                 playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
-                captureVideo().thenRun(() -> speechService.setPause(false));
+                captureVideo();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -233,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     Thread.sleep(1000);
                 }
                 playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
-                takePicture().thenRunAsync(() -> runOnUiThread(() -> speechService.setPause(false)));
+                takePicture();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -317,21 +316,19 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }, ContextCompat.getMainExecutor(this));
     }
 
-    public CompletableFuture<Void> captureVideo() {
-        CompletableFuture<Void> future = new CompletableFuture<>();
-
+    public void captureVideo() {
         Recording recording1 = recording;
         if (recording1 != null) {
             recording1.stop();
             recording = null;
-            return future;
+            return;
         }
 
         String name = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.getDefault()).format(System.currentTimeMillis());
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
         contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4");
-        contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, Environment.DIRECTORY_MOVIES); // Specify Movies directory
+        contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, Environment.DIRECTORY_MOVIES);
 
         MediaStoreOutputOptions options = new MediaStoreOutputOptions.Builder(
                 getContentResolver(),
@@ -339,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         ).build();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            return future;
+            return;
         }
 
         recording = videoCapture.getOutput().prepareRecording(MainActivity.this, options).withAudioEnabled().start(ContextCompat.getMainExecutor(MainActivity.this), videoRecordEvent -> {
@@ -347,7 +344,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 rec.setVisibility(View.VISIBLE);
                 capture.setEnabled(true);
 
-                // Schedule a task to stop the recording after the specified duration
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
@@ -355,7 +351,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                         if (recording != null) {
                             recording.stop();
                             recording = null;
-                            timer.cancel(); // Stop the timer after stopping the recording
+                            timer.cancel();
                         }
                     }
                 }, captureDurationMillis);
@@ -365,7 +361,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 if (!((VideoRecordEvent.Finalize) videoRecordEvent).hasError()) {
                     playBeep(ToneGenerator.TONE_CDMA_ABBR_ALERT);
                     String msg = "Video Captured and Saved";
-
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 } else {
                     recording.close();
@@ -375,15 +370,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     Toast.makeText(this, err, Toast.LENGTH_LONG).show();
                     Log.e("VIDEO", msg);
                 }
+                speechService.setPause(false);
             }
-            future.complete(null);
         });
-
-        return future;
     }
 
-    public CompletableFuture<Void> takePicture() {
-        CompletableFuture<Void> future = new CompletableFuture<>();
+    public void takePicture() {
         String nameTimeStamp = "IMG_" + System.currentTimeMillis();
         String name = nameTimeStamp + ".jpeg";
         ImageCapture.OutputFileOptions outputFileOptions = null;
@@ -415,30 +407,21 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     @Override
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                         Log.e("IMAGE", "Image Capture Success");
-
-                        // Get the saved image URI
                         Uri savedUri = outputFileResults.getSavedUri();
                         assert savedUri != null;
-                        //Log.v("IMAGE", "Saved Image Uri " + savedUri);
-
-                        // Update the MediaStore to make the image appear in the gallery
                         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                         mediaScanIntent.setData(savedUri);
                         sendBroadcast(mediaScanIntent);
-
                         Toast.makeText(getApplicationContext(), "Image Captured and Saved", Toast.LENGTH_SHORT).show();
-                        future.complete(null); // Complete the CompletableFuture
                     }
 
                     @Override
                     public void onError(@NonNull ImageCaptureException exception) {
                         Log.e("IMAGE", "Image Capture Failed With Exception : " + exception);
                         Toast.makeText(MainActivity.this, "Image Capture Failed", Toast.LENGTH_LONG).show();
-                        future.completeExceptionally(exception); // Complete the CompletableFuture exceptionally on error
                     }
                 });
-
-        return future;
+        speechService.setPause(false);
     }
 
     private void setFlashIcon(Camera camera) {
