@@ -31,7 +31,7 @@
             android:layout_marginTop="20sp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/savebutton"
-            android:src="@drawable/baseline_cloud_upload_24"
+            android:src="@drawable/download_solid"
             app:tint="#4CAF50" />
 
 

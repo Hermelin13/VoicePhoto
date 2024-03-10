@@ -131,10 +131,10 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         flipCamera.setOnClickListener(view -> {
             if (cameraFacing == CameraSelector.LENS_FACING_BACK) {
                 cameraFacing = CameraSelector.LENS_FACING_FRONT;
-                toggleFlash.setImageResource(R.drawable.baseline_flash_off_24);
+                toggleFlash.setImageResource(R.drawable.reshot_icon_no_flash_ftd27v6m4l);
             } else {
                 cameraFacing = CameraSelector.LENS_FACING_BACK;
-                toggleFlash.setImageResource(R.drawable.baseline_flash_off_24);
+                toggleFlash.setImageResource(R.drawable.reshot_icon_no_flash_ftd27v6m4l);
                 toggleFlash.setColorFilter(Color.WHITE);
                 flipCamera.setColorFilter(Color.WHITE);
                 question.setColorFilter(Color.WHITE);
@@ -428,24 +428,24 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         if (camera.getCameraInfo().hasFlashUnit()) {
             if (camera.getCameraInfo().getTorchState().getValue() == 0) {
                 camera.getCameraControl().enableTorch(true);
-                toggleFlash.setImageResource(R.drawable.baseline_flash_on_24);
+                toggleFlash.setImageResource(R.drawable.reshot_icon_flash_5emnhf8c7t);
             } else {
                 camera.getCameraControl().enableTorch(false);
-                toggleFlash.setImageResource(R.drawable.baseline_flash_off_24);
+                toggleFlash.setImageResource(R.drawable.reshot_icon_no_flash_ftd27v6m4l);
             }
         } else {
             if(camera.getCameraInfo().getLensFacing() == CameraSelector.LENS_FACING_FRONT){
                 ColorDrawable viewColor = (ColorDrawable) previewView.getBackground();
                 int colorId = viewColor.getColor();
                 if(colorId == Color.BLACK) {
-                    toggleFlash.setImageResource(R.drawable.baseline_flash_on_24);
+                    toggleFlash.setImageResource(R.drawable.reshot_icon_flash_5emnhf8c7t);
                     toggleFlash.setColorFilter(Color.BLACK);
                     flipCamera.setColorFilter(Color.BLACK);
                     question.setColorFilter(Color.BLACK);
                     cogwheel.setColorFilter(Color.BLACK);
                     previewView.setBackgroundColor(Color.WHITE);
                 } else {
-                    toggleFlash.setImageResource(R.drawable.baseline_flash_off_24);
+                    toggleFlash.setImageResource(R.drawable.reshot_icon_no_flash_ftd27v6m4l);
                     toggleFlash.setColorFilter(Color.WHITE);
                     flipCamera.setColorFilter(Color.WHITE);
                     question.setColorFilter(Color.WHITE);
