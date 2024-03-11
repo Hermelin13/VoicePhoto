@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
 
-        KEYPHOTO = ShPr.getString("kPhoto", "snap");
+        KEYPHOTO = ShPr.getString("kPhoto", "picture");
         KEYVIDEO = ShPr.getString("kVideo", "action");
         captureDurationMillis = Long.parseLong(ShPr.getString("length", "10")) * 1000;
         delayInSeconds = Integer.parseInt(ShPr.getString("count", "3"));

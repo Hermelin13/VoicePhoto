@@ -31,7 +31,7 @@ public class HelpActivity extends AppCompatActivity {
 
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
 
-        kphoto.setText(colorChange(getString(R.string.photo) + " ", ShPr.getString("kPhoto", "snap")));
+        kphoto.setText(colorChange(getString(R.string.photo) + " ", ShPr.getString("kPhoto", "picture")));
         kvideo.setText(colorChange(getString(R.string.video) + " ", ShPr.getString("kVideo", "action")));
         length.setText(colorChange(getString(R.string.length)  + " ", ShPr.getString("length", "10") + " seconds"));
         beep.setText(colorChange(getString(R.string.countdownlength) + " ", ShPr.getString("count", "3") + " seconds"));
