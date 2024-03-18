@@ -1,5 +1,24 @@
-<vector android:height="35dp" android:viewportHeight="19.905"
-    android:viewportWidth="19.904" android:width="35dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="#FFF" android:pathData="M9.952,9.953m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0"/>
-    <path android:fillColor="#FFF" android:pathData="M9.952,0A9.953,9.953 0,1 0,19.9 9.953,9.953 9.953,0 0,0 9.952,0ZM16.952,10.953h-2.1a4.98,4.98 0,0 1,-0.731 1.755L15.608,14.2 14.194,15.61l-1.488,-1.488a4.955,4.955 0,0 1,-1.754 0.73v2.1h-2v-2.1A5,5 0,0 1,7.2 14.121L5.709,15.61 4.3,14.2l1.488,-1.489a4.94,4.94 0,0 1,-0.73 -1.754h-2.1v-2h2.1A5,5 0,0 1,5.783 7.2L4.3,5.711 5.71,4.3 7.2,5.785a4.919,4.919 0,0 1,1.754 -0.73v-2.1h2v2.1a4.963,4.963 0,0 1,1.754 0.73L14.194,4.3l1.414,1.414L14.12,7.2a4.936,4.936 0,0 1,0.731 1.755h2.1Z"/>
-</vector>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background shape -->
+    <item android:id="@+id/background_shape">
+        <shape android:shape="rectangle">
+            <solid android:color="#000" />
+            <corners android:radius="100dp" />
+        </shape>
+    </item>
+    <!-- Your vector drawable -->
+    <item android:id="@+id/vector_drawable">
+        <vector
+            android:width="40dp"
+            android:height="40dp"
+            android:viewportWidth="19.905"
+            android:viewportHeight="19.905">
+            <path
+                android:fillColor="#FFF"
+                android:pathData="M9.952,9.953m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+            <path
+                android:fillColor="#FFF"
+                android:pathData="M8.5,1.6A8.5,8.5 0,1 0,18.3 8.5,8.5 8.5,0 0,0 8.5,1.6ZM16.952,10.953h-2.1a4.98,4.98 0,0 1,-0.731 1.755L15.608,14.2 14.194,15.61l-1.488,-1.488a4.955,4.955 0,0 1,-1.754 0.73v2.1h-2v-2.1A5,5 0,0 1,7.2 14.121L5.709,15.61 4.3,14.2l1.488,-1.489a4.94,4.94 0,0 1,-0.73 -1.754h-2.1v-2h2.1A5,5 0,0 1,5.783 7.2L4.3,5.711 5.71,4.3 7.2,5.785a4.919,4.919 0,0 1,1.754 -0.73v-2.1h2v2.1a4.963,4.963 0,0 1,1.754 0.73L14.194,4.3l1.414,1.414L14.12,7.2a4.936,4.936 0,0 1,0.731 1.755h2.1Z" />
+        </vector>
+    </item>
+</layer-list>

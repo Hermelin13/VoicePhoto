@@ -135,10 +135,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             } else {
                 cameraFacing = CameraSelector.LENS_FACING_BACK;
                 toggleFlash.setImageResource(R.drawable.reshot_icon_no_flash_ftd27v6m4l);
-                toggleFlash.setColorFilter(Color.WHITE);
-                flipCamera.setColorFilter(Color.WHITE);
-                question.setColorFilter(Color.WHITE);
-                cogwheel.setColorFilter(Color.WHITE);
                 previewView.setBackgroundColor(Color.BLACK);
             }
             startCamera(cameraFacing);
@@ -439,17 +435,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 int colorId = viewColor.getColor();
                 if(colorId == Color.BLACK) {
                     toggleFlash.setImageResource(R.drawable.reshot_icon_flash_5emnhf8c7t);
-                    toggleFlash.setColorFilter(Color.BLACK);
-                    flipCamera.setColorFilter(Color.BLACK);
-                    question.setColorFilter(Color.BLACK);
-                    cogwheel.setColorFilter(Color.BLACK);
                     previewView.setBackgroundColor(Color.WHITE);
                 } else {
                     toggleFlash.setImageResource(R.drawable.reshot_icon_no_flash_ftd27v6m4l);
-                    toggleFlash.setColorFilter(Color.WHITE);
-                    flipCamera.setColorFilter(Color.WHITE);
-                    question.setColorFilter(Color.WHITE);
-                    cogwheel.setColorFilter(Color.WHITE);
                     previewView.setBackgroundColor(Color.BLACK);
                 }
             } else {

@@ -44,8 +44,7 @@
         android:layout_marginEnd="10sp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/turn_off_on_flashlight"
-        android:src="@drawable/reshot_icon_no_flash_ftd27v6m4l"
-        app:tint="#fff" />
+        android:src="@drawable/reshot_icon_no_flash_ftd27v6m4l" />
 
     <ImageButton
         android:id="@+id/flipCamera"
@@ -56,8 +55,7 @@
         android:layout_margin="10sp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/change_camera"
-        android:src="@drawable/camera_rotate_solid"
-        app:tint="#fff" />
+        android:src="@drawable/camera_rotate_solid"/>
 
     <ImageButton
         android:id="@+id/question"
@@ -68,8 +66,7 @@
         android:layout_marginEnd="10sp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/open_help"
-        android:src="@drawable/baseline_info_24"
-        app:tint="#fff" />
+        android:src="@drawable/baseline_info_24"/>
 
     <ImageButton
         android:id="@+id/cogwheel"
@@ -77,10 +74,12 @@
         android:layout_height="60sp"
         android:layout_below="@id/question"
         android:layout_alignParentEnd="true"
-        android:layout_margin="10sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="10sp"
+        android:layout_marginEnd="10sp"
+        android:layout_marginBottom="10sp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/settings"
-        android:src="@drawable/reshot_icon_settings_circle_z7hwpc9n83_0acf8"
-        app:tint="#fff" />
+        android:src="@drawable/reshot_icon_settings_circle_z7hwpc9n83_0acf8" />
 
 </RelativeLayout>
