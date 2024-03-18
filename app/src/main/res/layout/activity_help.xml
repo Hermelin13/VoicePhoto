@@ -88,9 +88,9 @@
             android:layout_width="25sp"
             android:layout_height="25sp"
             android:layout_below="@id/beep"
-            android:layout_alignParentStart="true"
+            android:layout_alignTop="@id/flash"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="2dp"
             android:importantForAccessibility="no"
             android:src="@drawable/reshot_icon_flash_5emnhf8c7t" />
 
@@ -110,9 +110,9 @@
             android:layout_width="25sp"
             android:layout_height="25sp"
             android:layout_below="@id/flash"
-            android:layout_alignParentStart="true"
+            android:layout_alignTop="@id/cmsw"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="2dp"
             android:importantForAccessibility="no"
             android:src="@drawable/camera_rotate_solid" />
 
@@ -132,13 +132,14 @@
             android:layout_width="25sp"
             android:layout_height="25sp"
             android:layout_below="@id/cmsw"
-            android:layout_alignParentStart="true"
+            android:layout_alignTop="@id/setinfo"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="2dp"
             android:importantForAccessibility="no"
             android:src="@drawable/reshot_icon_settings_circle_z7hwpc9n83_0acf8" />
 
         <TextView
+            android:id="@+id/setinfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/cmsw"

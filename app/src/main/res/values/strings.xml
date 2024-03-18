@@ -5,7 +5,7 @@
     <string name="length">Video length: </string>
     <string name="func">Low tone signals countdown.\nHigh tone marks capture start or end.</string>
     <string name="countdownlength">Countdown: </string>
-    <string name="flash">This icon turns on/off the back flashlight.\nFront flashlight is not accessible.</string>
+    <string name="flash">This icon turns on/off the back flashlight.</string>
     <string name="camswitch">This icon switches the front and back cameras.</string>
     <string name="settingsicon">This icon opens settings.</string>
 

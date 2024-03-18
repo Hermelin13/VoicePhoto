@@ -430,10 +430,10 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 toggleFlash.setImageResource(R.drawable.reshot_icon_no_flash_ftd27v6m4l);
             }
         } else {
-            if(camera.getCameraInfo().getLensFacing() == CameraSelector.LENS_FACING_FRONT){
+            if (camera.getCameraInfo().getLensFacing() == CameraSelector.LENS_FACING_FRONT) {
                 ColorDrawable viewColor = (ColorDrawable) previewView.getBackground();
                 int colorId = viewColor.getColor();
-                if(colorId == Color.BLACK) {
+                if (colorId == Color.BLACK) {
                     toggleFlash.setImageResource(R.drawable.reshot_icon_flash_5emnhf8c7t);
                     previewView.setBackgroundColor(Color.WHITE);
                 } else {

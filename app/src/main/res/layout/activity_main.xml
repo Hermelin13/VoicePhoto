@@ -11,7 +11,7 @@
         android:id="@+id/cameraPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000"/>
+        android:background="#000" />
 
     <ImageView
         android:id="@+id/record"
@@ -55,7 +55,7 @@
         android:layout_margin="10sp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/change_camera"
-        android:src="@drawable/camera_rotate_solid"/>
+        android:src="@drawable/camera_rotate_solid" />
 
     <ImageButton
         android:id="@+id/question"
@@ -66,7 +66,7 @@
         android:layout_marginEnd="10sp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/open_help"
-        android:src="@drawable/baseline_info_24"/>
+        android:src="@drawable/baseline_info_24" />
 
     <ImageButton
         android:id="@+id/cogwheel"

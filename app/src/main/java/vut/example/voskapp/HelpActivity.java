@@ -33,13 +33,13 @@ public class HelpActivity extends AppCompatActivity {
 
         kphoto.setText(colorChange(getString(R.string.photo) + " ", ShPr.getString("kPhoto", "picture")));
         kvideo.setText(colorChange(getString(R.string.video) + " ", ShPr.getString("kVideo", "action")));
-        length.setText(colorChange(getString(R.string.length)  + " ", ShPr.getString("length", "10") + " seconds"));
+        length.setText(colorChange(getString(R.string.length) + " ", ShPr.getString("length", "10") + " seconds"));
         beep.setText(colorChange(getString(R.string.countdownlength) + " ", ShPr.getString("count", "3") + " seconds"));
 
         back.setOnClickListener(v -> closeHelp());
     }
 
-    public SpannableString colorChange (String staticText, String dynamicText) {
+    public SpannableString colorChange(String staticText, String dynamicText) {
         String combinedText = staticText + dynamicText;
         SpannableString spannableString = new SpannableString(combinedText);
 
