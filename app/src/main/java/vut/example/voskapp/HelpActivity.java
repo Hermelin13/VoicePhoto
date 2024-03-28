@@ -1,3 +1,10 @@
+/*
+ * FILE: HelpActivity
+ * AUTHOR: Adam Dalibor Jurčík
+ * LOGIN: xjurci08
+ * APP: VoicePhoto
+ */
+
 package vut.example.voskapp;
 
 import android.content.Context;
@@ -13,11 +20,21 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Help Class
+ */
 public class HelpActivity extends AppCompatActivity {
 
     ImageButton back;
     TextView kphoto, kvideo, beep, length;
 
+    /**
+     * Init function
+     *
+     * @param state If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     */
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -28,17 +45,23 @@ public class HelpActivity extends AppCompatActivity {
         kvideo = findViewById(R.id.keywordsvideo);
         length = findViewById(R.id.lengthvideo);
         beep = findViewById(R.id.count);
+        back.setOnClickListener(v -> closeHelp());
 
+        // LOAD Shared Preferences
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
-
         kphoto.setText(colorChange(getString(R.string.photo) + " ", ShPr.getString("kPhoto", "picture")));
         kvideo.setText(colorChange(getString(R.string.video) + " ", ShPr.getString("kVideo", "action")));
         length.setText(colorChange(getString(R.string.length) + " ", ShPr.getString("length", "10") + " seconds"));
         beep.setText(colorChange(getString(R.string.countdownlength) + " ", ShPr.getString("count", "3") + " seconds"));
-
-        back.setOnClickListener(v -> closeHelp());
     }
 
+    /**
+     * Function to put color to the dynamic text
+     *
+     * @param staticText static text - not changing
+     * @param dynamicText dynamic text - can change and has diff color
+     * @return complete string of the both
+     */
     public SpannableString colorChange(String staticText, String dynamicText) {
         String combinedText = staticText + dynamicText;
         SpannableString spannableString = new SpannableString(combinedText);
@@ -50,6 +73,9 @@ public class HelpActivity extends AppCompatActivity {
         return spannableString;
     }
 
+    /**
+     * Function to close intent and open the main intent
+     */
     public void closeHelp() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

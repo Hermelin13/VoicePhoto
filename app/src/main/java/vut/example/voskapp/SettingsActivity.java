@@ -1,3 +1,10 @@
+/*
+ * FILE: SettingsActivity
+ * AUTHOR: Adam Dalibor Jurčík
+ * LOGIN: xjurci08
+ * APP: VoicePhoto
+ */
+
 package vut.example.voskapp;
 
 import android.content.Context;
@@ -12,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Objects;
 
+/**
+ * Settings class
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     ImageButton back, confirm;
@@ -20,6 +30,13 @@ public class SettingsActivity extends AppCompatActivity {
     int length, count;
     SharedPreferences ShPr;
 
+    /**
+     * Init function
+     *
+     * @param state If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     */
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -31,17 +48,19 @@ public class SettingsActivity extends AppCompatActivity {
         keyvideo = findViewById(R.id.editTextVideo);
         setlength = findViewById(R.id.editTextLength);
         setcount = findViewById(R.id.editTextCount);
-
-        ShPr = getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
-
         back.setOnClickListener(v -> closeSet());
 
+        // LOAD Shared Preferences
+        ShPr = getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
+
+        // save user input to SP
         confirm.setOnClickListener(view -> {
             photoSTR = keyphoto.getText().toString();
             videoSTR = keyvideo.getText().toString();
             lengthSTR = setlength.getText().toString();
             countSTR = setcount.getText().toString();
 
+            // INT to STR
             if (Objects.equals(lengthSTR, "")) {
                 length = -1;
             } else {
@@ -54,6 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
                 count = Integer.parseInt(countSTR);
             }
 
+            // SAVE
             SharedPreferences.Editor editor = ShPr.edit();
             if (!Objects.equals(photoSTR, "")) {
                 editor.putString("kPhoto", photoSTR);
@@ -68,11 +88,15 @@ public class SettingsActivity extends AppCompatActivity {
                 editor.putString("count", String.valueOf(count));
             }
 
+            // CLOSE EDIT
             editor.apply();
             Toast.makeText(SettingsActivity.this, "Settings Saved", Toast.LENGTH_SHORT).show();
         });
     }
 
+    /**
+     * Function to close intent and open the main intent
+     */
     public void closeSet() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

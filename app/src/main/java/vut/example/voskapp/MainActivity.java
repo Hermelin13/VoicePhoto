@@ -1,3 +1,10 @@
+/**
+* FILE: MainActivity
+* AUTHOR: Adam Dalibor Jurčík
+* LOGIN: xjurci08
+* APP: VoicePhoto
+*/
+
 package vut.example.voskapp;
 
 import android.Manifest;
@@ -60,6 +67,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Main Class
+ */
 public class MainActivity extends AppCompatActivity implements RecognitionListener {
 
     String KEYVIDEO;
@@ -79,6 +89,13 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     long captureDurationMillis;
     int delayInSeconds;
 
+    /**
+     * Init function
+     *
+     * @param state If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     */
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -105,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         cogwheel.setOnClickListener(v -> open("settings"));
         LibVosk.setLogLevel(LogLevel.INFO);
 
-
+        // IF Android 9 and lower
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
@@ -117,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 initModel();
             }
         } else {
-            // Request audio permission
             if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                 String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO};
@@ -141,6 +157,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         });
     }
 
+    /**
+     * Function for Init of model fro recognition
+     */
     private void initModel() {
         StorageService.unpack(this, "model-en-us", "model",
                 (model) -> {
@@ -155,6 +174,16 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 (exception) -> setErrorState("Failed to unpack the model" + exception.getMessage()));
     }
 
+    /**
+     * Function to display a modal window for user permissions
+     *
+     * @param requestCode The request code passed in requestPermissions(
+     * android.app.Activity, String[], int)
+     * @param permissions The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions
+     *     which is either {@link android.content.pm.PackageManager#PERMISSION_GRANTED}
+     *     or {@link android.content.pm.PackageManager#PERMISSION_DENIED}. Never null.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -182,6 +211,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
     }
 
+    /**
+     * Function when the app ends
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -201,6 +233,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
     }
 
+    /**
+     * Function for displaying the best hypothesis so far
+     *
+     * @param hypothesis model hypothesis
+     */
     @Override
     public void onPartialResult(String hypothesis) {
         if (hypothesis.contains(KEYVIDEO)) {
@@ -235,14 +272,27 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
     }
 
+    /**
+     * Function for displaying the best hypothesis
+     *
+     * @param hypothesis model hypothesis
+     */
     @Override
     public void onResult(String hypothesis) {
     }
 
+    /**
+     * Function to stop recognition
+     */
     private void stopRecognition() {
         runOnUiThread(() -> speechService.setPause(true));
     }
 
+    /**
+     * Function for displaying the best hypothesis and stop recognition
+     *
+     * @param hypothesis model hypothesis
+     */
     @Override
     public void onFinalResult(String hypothesis) {
         if (speechStreamService != null) {
@@ -250,19 +300,37 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
     }
 
+    /**
+     * Function to set an error condition
+     *
+     * @param e Error
+     */
     @Override
     public void onError(Exception e) {
         setErrorState(e.getMessage());
     }
 
+    /**
+     * Timeout capture function
+     */
     @Override
     public void onTimeout() {
     }
 
+    /**
+     * Function for writing error messages to Logcat
+     *
+     * @param message Error message
+     */
     private void setErrorState(String message) {
         Log.e("MainActivity", "Recognizer not initialized, ERROR: " + message);
     }
 
+    /**
+     * Function to start recognition
+     *
+     * @throws IOException catching errors
+     */
     private void startRecognition() throws IOException {
         if (recognizer != null) {
             // Initialize speech service if not already initialized
@@ -275,6 +343,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
     }
 
+    /**
+     * Function to start the camera view
+     *
+     * @param cameraFacing front or back camera facing
+     */
     public void startCamera(int cameraFacing) {
         ListenableFuture<ProcessCameraProvider> listenableFuture = ProcessCameraProvider.getInstance(this);
 
@@ -312,6 +385,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }, ContextCompat.getMainExecutor(this));
     }
 
+    /**
+     * Video capture function
+     */
     public void captureVideo() {
         Recording recording1 = recording;
         if (recording1 != null) {
@@ -320,6 +396,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             return;
         }
 
+        // set file
         String name = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.getDefault()).format(System.currentTimeMillis());
         ContentValues contentValues = new ContentValues();
         contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, name);
@@ -335,6 +412,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             return;
         }
 
+        // saving video
         recording = videoCapture.getOutput().prepareRecording(MainActivity.this, options).withAudioEnabled().start(ContextCompat.getMainExecutor(MainActivity.this), videoRecordEvent -> {
             if (videoRecordEvent instanceof VideoRecordEvent.Start) {
                 rec.setVisibility(View.VISIBLE);
@@ -371,11 +449,16 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         });
     }
 
+    /**
+     * Photo capture function
+     */
     public void takePicture() {
         String nameTimeStamp = "IMG_" + System.currentTimeMillis();
         String name = nameTimeStamp + ".jpeg";
         ImageCapture.OutputFileOptions outputFileOptions = null;
 
+        // Set file
+        // IF Android 11 and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             ContentValues contentValues = new ContentValues();
             contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, nameTimeStamp);
@@ -397,6 +480,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             }
         }
 
+        // save photo
         assert outputFileOptions != null;
         imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this),
                 new ImageCapture.OnImageSavedCallback() {
@@ -420,6 +504,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         speechService.setPause(false);
     }
 
+    /**
+     * Function to turn on/of flashlight
+     *
+     * @param camera Instance of camera
+     */
     private void setFlashIcon(Camera camera) {
         if (camera.getCameraInfo().hasFlashUnit()) {
             if (camera.getCameraInfo().getTorchState().getValue() == 0) {
@@ -446,12 +535,22 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
     }
 
+    /**
+     * Beeping function
+     *
+     * @param tone tone to play
+     */
     private void playBeep(int tone) {
         if (toneGenerator != null) {
             toneGenerator.startTone(tone, 400);
         }
     }
 
+    /**
+     * Function to start another page
+     *
+     * @param what which Intent to start
+     */
     public void open(String what) {
         if (Objects.equals(what, "help")) {
             Intent intent = new Intent(this, HelpActivity.class);
