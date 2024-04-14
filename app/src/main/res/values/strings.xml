@@ -27,4 +27,5 @@
     <string name="change_camera">change camera</string>
     <string name="settings">open settings</string>
     <string name="open_help">open help</string>
+    <string name="switchname">Language</string>
 </resources>

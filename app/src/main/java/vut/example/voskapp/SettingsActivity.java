@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -90,7 +91,9 @@ public class SettingsActivity extends AppCompatActivity {
 
             // CLOSE EDIT
             editor.apply();
-            Toast.makeText(SettingsActivity.this, "Settings Saved", Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(SettingsActivity.this, "Settings Saved", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 250);
+            toast.show();
         });
     }
 
