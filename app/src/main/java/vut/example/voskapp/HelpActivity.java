@@ -50,9 +50,15 @@ public class HelpActivity extends AppCompatActivity {
 
         // LOAD Shared Preferences
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
-        language.setText(colorChange(getString(R.string.language) + " ", ShPr.getString("model", "EN")));
-        kphoto.setText(colorChange(getString(R.string.photo) + " ", ShPr.getString("kPhoto", "picture")));
-        kvideo.setText(colorChange(getString(R.string.video) + " ", ShPr.getString("kVideo", "action")));
+        language.setText(colorChange(getString(R.string.language) + " ", ShPr.getString("model", "model-en-us")));
+        if(ShPr.getString("model", "model-en-us").equals("model-en-us")){
+            kphoto.setText(colorChange(getString(R.string.photo) + " ", ShPr.getString("kPhoto", "picture")));
+            kvideo.setText(colorChange(getString(R.string.video) + " ", ShPr.getString("kVideo", "action")));
+        } else if (ShPr.getString("model", "model-en-us").equals("model-cz")) {
+            kphoto.setText(colorChange(getString(R.string.photo) + " ", ShPr.getString("kPhoto", "foto")));
+            kvideo.setText(colorChange(getString(R.string.video) + " ", ShPr.getString("kVideo", "akce")));
+        }
+
         length.setText(colorChange(getString(R.string.length) + " ", ShPr.getString("length", "10") + " seconds"));
         beep.setText(colorChange(getString(R.string.countdownlength) + " ", ShPr.getString("count", "3") + " seconds"));
     }

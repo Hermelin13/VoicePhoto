@@ -114,8 +114,14 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
 
         model = ShPr.getString("model", "model-en-us");
-        KEYPHOTO = ShPr.getString("kPhoto", "picture");
-        KEYVIDEO = ShPr.getString("kVideo", "action");
+        if(model.equals("model-en-us")) {
+            KEYPHOTO = ShPr.getString("kPhoto", "picture");
+            KEYVIDEO = ShPr.getString("kVideo", "action");
+        } else if (model.equals("model-cz")) {
+            KEYPHOTO = ShPr.getString("kPhoto", "foto");
+            KEYVIDEO = ShPr.getString("kVideo", "akce");
+        }
+
         captureDurationMillis = Long.parseLong(ShPr.getString("length", "10")) * 1000;
         delayInSeconds = Integer.parseInt(ShPr.getString("count", "3"));
 
