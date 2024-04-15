@@ -1,9 +1,9 @@
 /**
-* FILE: MainActivity
-* AUTHOR: Adam Dalibor Jurčík
-* LOGIN: xjurci08
-* APP: VoicePhoto
-*/
+ * FILE: MainActivity
+ * AUTHOR: Adam Dalibor Jurčík
+ * LOGIN: xjurci08
+ * APP: VoicePhoto
+ */
 
 package vut.example.voskapp;
 
@@ -94,8 +94,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
      * Init function
      *
      * @param state If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *              previously being shut down then this Bundle contains the data it most
+     *              recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
      */
     @Override
     public void onCreate(Bundle state) {
@@ -179,12 +179,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     /**
      * Function to display a modal window for user permissions
      *
-     * @param requestCode The request code passed in requestPermissions(
-     * android.app.Activity, String[], int)
-     * @param permissions The requested permissions. Never null.
+     * @param requestCode  The request code passed in requestPermissions(
+     *                     android.app.Activity, String[], int)
+     * @param permissions  The requested permissions. Never null.
      * @param grantResults The grant results for the corresponding permissions
-     *     which is either {@link android.content.pm.PackageManager#PERMISSION_GRANTED}
-     *     or {@link android.content.pm.PackageManager#PERMISSION_DENIED}. Never null.
+     *                     which is either {@link android.content.pm.PackageManager#PERMISSION_GRANTED}
+     *                     or {@link android.content.pm.PackageManager#PERMISSION_DENIED}. Never null.
      */
     @Override
     public void onRequestPermissionsResult(int requestCode,

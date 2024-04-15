@@ -32,8 +32,8 @@ public class HelpActivity extends AppCompatActivity {
      * Init function
      *
      * @param state If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *              previously being shut down then this Bundle contains the data it most
+     *              recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
      */
     @Override
     public void onCreate(Bundle state) {
@@ -60,7 +60,7 @@ public class HelpActivity extends AppCompatActivity {
     /**
      * Function to put color to the dynamic text
      *
-     * @param staticText static text - not changing
+     * @param staticText  static text - not changing
      * @param dynamicText dynamic text - can change and has diff color
      * @return complete string of the both
      */

@@ -40,8 +40,8 @@ public class SettingsActivity extends AppCompatActivity {
      * Init function
      *
      * @param state If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *              previously being shut down then this Bundle contains the data it most
+     *              recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
      */
     @Override
     public void onCreate(Bundle state) {
@@ -87,7 +87,7 @@ public class SettingsActivity extends AppCompatActivity {
             // CLOSE EDIT
             editor.apply();
             Toast toast = Toast.makeText(SettingsActivity.this, "Language Switched", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 250);
+            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 250);
             toast.show();
         });
 
@@ -129,7 +129,7 @@ public class SettingsActivity extends AppCompatActivity {
             // CLOSE EDIT
             editor.apply();
             Toast toast = Toast.makeText(SettingsActivity.this, "Settings Saved", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 250);
+            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 250);
             toast.show();
         });
     }

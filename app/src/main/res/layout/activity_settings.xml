@@ -166,15 +166,15 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:showText="true"
-            android:textOff="@string/switchnameEN"
-            android:textOn="@string/switchnameCZ"
-            android:switchPadding="10sp"
-            android:textColor="#fff"
-            android:trackTint="#2fff"
-            android:trackTintMode="add"
             android:scaleX="1.5"
             android:scaleY="1.5"
+            android:showText="true"
+            android:switchPadding="10sp"
+            android:textColor="#fff"
+            android:textOff="@string/switchnameEN"
+            android:textOn="@string/switchnameCZ"
+            android:trackTint="#2fff"
+            android:trackTintMode="add"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     </RelativeLayout>
