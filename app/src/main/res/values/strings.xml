@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">VoicePhoto</string>
+    <string name="language">Language: </string>
     <string name="photo">Take picture by saying: </string>
     <string name="video">Take video by saying: </string>
     <string name="length">Video length: </string>
@@ -13,6 +14,8 @@
     <string name="setvideo">Set your word for capturing video:</string>
     <string name="setlength">Set your length for video:</string>
     <string name="setcount">Set your countdown for capture:</string>
+    <string name="switchnameEN">EN</string>
+    <string name="switchnameCZ">CZ</string>
 
     <string name="hintPhoto">English keyword for photo capture</string>
     <string name="hintVideo">English keyword for video capture</string>
@@ -27,5 +30,4 @@
     <string name="change_camera">change camera</string>
     <string name="settings">open settings</string>
     <string name="open_help">open help</string>
-    <string name="switchname">Language</string>
 </resources>

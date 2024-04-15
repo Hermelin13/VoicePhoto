@@ -25,12 +25,24 @@
             app:tint="#FF4A4A" />
 
         <TextView
-            android:id="@+id/keywordsphoto"
+            android:id="@+id/language"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/back"
             android:layout_marginStart="60dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
+            android:text="@string/language"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/keywordsphoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/language"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="40dp"
             android:text="@string/photo"
             android:textColor="#fff"

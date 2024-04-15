@@ -26,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class HelpActivity extends AppCompatActivity {
 
     ImageButton back;
-    TextView kphoto, kvideo, beep, length;
+    TextView kphoto, kvideo, beep, length, language;
 
     /**
      * Init function
@@ -41,6 +41,7 @@ public class HelpActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_help);
         back = findViewById(R.id.back);
+        language = findViewById(R.id.language);
         kphoto = findViewById(R.id.keywordsphoto);
         kvideo = findViewById(R.id.keywordsvideo);
         length = findViewById(R.id.lengthvideo);
@@ -49,6 +50,7 @@ public class HelpActivity extends AppCompatActivity {
 
         // LOAD Shared Preferences
         SharedPreferences ShPr = getApplicationContext().getSharedPreferences("VoiceSet", Context.MODE_PRIVATE);
+        language.setText(colorChange(getString(R.string.language) + " ", ShPr.getString("model", "EN")));
         kphoto.setText(colorChange(getString(R.string.photo) + " ", ShPr.getString("kPhoto", "picture")));
         kvideo.setText(colorChange(getString(R.string.video) + " ", ShPr.getString("kVideo", "action")));
         length.setText(colorChange(getString(R.string.length) + " ", ShPr.getString("length", "10") + " seconds"));

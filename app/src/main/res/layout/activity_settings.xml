@@ -164,11 +164,17 @@
             android:id="@+id/switchlanguage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/switchname"
-            android:textColor="#fff"
-            android:textSize="20sp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
+            android:showText="true"
+            android:textOff="@string/switchnameEN"
+            android:textOn="@string/switchnameCZ"
+            android:switchPadding="10sp"
+            android:textColor="#fff"
+            android:trackTint="#2fff"
+            android:trackTintMode="add"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     </RelativeLayout>
